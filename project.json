@@ -8,13 +8,11 @@
         "core": [],
         "gameLib": [],
         "game": [
-            "Security_Doors_Mod/scripts/3_Game"
         ],
         "world": [
-            "Security_Doors_Mod/scripts/4_World"
         ],
         "mission": [
-            "Security_Doors_Mod/scripts/5_Mission"
+            "SecurityDoorScripts/5_Mission"
         ]
     },
     "dependencies": [
@@ -47,7 +45,7 @@
             "type": "pbo",
             "path": "C:/Users/ManuShamil/Desktop/DayZDependencies/@Security_Doors_Mod/Addons/Security_Doors_Mod.pbo",
             "project_files": [
-                
+
             ]
         }
     ]

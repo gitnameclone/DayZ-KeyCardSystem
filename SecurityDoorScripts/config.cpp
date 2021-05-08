@@ -15,7 +15,10 @@ class CfgMods
     {
         name = "SecurityDoorScripts";
         type = "mod";
-
+        dependencies[]=
+		{
+			"Mission"
+		};
         class defs
         {
             class missionScriptModule

@@ -1,0 +1,3 @@
+class SecurityDoor : Fences {
+    
+}

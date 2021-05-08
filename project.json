@@ -42,6 +42,13 @@
             "comments": "points to a path with already existing template for settings (gets autoresolved after reading)",
             "type": "setting",
             "path": "Dependencies/COT/cot_languagecore.json"
+        },
+        {
+            "type": "pbo",
+            "path": "C:/Users/ManuShamil/Desktop/DayZDependencies/@Security_Doors_Mod/Addons/Security_Doors_Mod.pbo",
+            "project_files": [
+                
+            ]
         }
     ]
 }

@@ -1,6 +1,0 @@
-//<'Security_Doors_Mod.pbo' properties via Mikero's dos tools, dll version 7.97>
-prefix=2_CsSp_HQ_Modding\Security_Doors_Mod;
-Mikero=DePbo.dll.8.07;
-version=21050817;
-//PboType=Arma Addon;
-//</properties>

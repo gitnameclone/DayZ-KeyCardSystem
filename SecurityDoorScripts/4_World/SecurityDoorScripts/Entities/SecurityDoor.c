@@ -1,3 +1,3 @@
-class SecurityDoor : Fences {
-    
+class SecurityDoor : Fence {
+
 }

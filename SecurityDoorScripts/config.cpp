@@ -21,6 +21,11 @@ class CfgMods
 		};
         class defs
         {
+            class worldScriptModule
+            {
+                value = "";
+                files[] = {"SecurityDoorScripts\4_World"};
+            };
             class missionScriptModule
             {
                 value = "";

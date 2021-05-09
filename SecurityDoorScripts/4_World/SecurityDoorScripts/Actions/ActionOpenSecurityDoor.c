@@ -15,6 +15,13 @@ class ActionOpenSecurityDoor : ActionContinuousBase {
 
 	}
 
+    override void CreateConditionComponents()
+	{
+		m_ConditionItem = new CCINonRuined();
+		m_ConditionTarget = new CCTObject();
+	}
+
+
 
 	override string GetText() {
 		return "Open Security Door";
@@ -31,8 +38,6 @@ class ActionOpenSecurityDoor : ActionContinuousBase {
         Object targetObject = target.GetObject();
 
         Print( "" + targetObject );
-
-        return true;
 
         if (targetObject.IsInherited( SDM_Security_Door_Base )) {
 

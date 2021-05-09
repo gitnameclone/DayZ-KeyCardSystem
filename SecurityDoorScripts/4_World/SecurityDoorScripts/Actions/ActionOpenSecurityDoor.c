@@ -6,13 +6,13 @@ class ActionOpenSecurityDoorCB : ActionContinuousBaseCB {
 	}
 }
 
-class ActionOpenSecurityDoor : ActionContinuousBase {
+class ActionOpenSecurityDoor : ActionInteractBase {
 
     void ActionOpenSecurityDoor() 
     {
-        m_CallbackClass = ActionOpenSecurityDoorCB;
-        m_CommandUID = DayZPlayerConstants.CMD_ACTIONMOD_INTERACTONCE;
+		m_CommandUID = DayZPlayerConstants.CMD_ACTIONMOD_INTERACTONCE;
 		m_StanceMask = DayZPlayerConstants.STANCEMASK_ALL;
+		m_HUDCursorIcon = CursorIcons.None;
 	}
 
     override void CreateConditionComponents()
@@ -62,18 +62,18 @@ class ActionOpenSecurityDoor : ActionContinuousBase {
 		return false;
 	}
 
-    override  void OnFinishProgressClient( ActionData action_data )
+    override  void OnExecuteClient( ActionData action_data )
 	{
-        super.OnFinishProgressClient( action_data );
+        super.OnExecuteClient( action_data );
 
-        Print("OnFinishProgressClient");
-        GetGame().ChatPlayer("OnFinishProgressClient");
+        Print("OnExecuteClient");
+        GetGame().ChatPlayer("OnExecuteClient");
 	}
 
-    override void OnFinishProgressServer( ActionData action_data )
+    override void OnExecuteServer( ActionData action_data )
 	{	
-		super.OnFinishProgressServer( action_data );
+		super.OnExecuteServer( action_data );
 
-        Print("OnFinishProgressServer");
+        Print("OnExecuteServer");
 	}
 }

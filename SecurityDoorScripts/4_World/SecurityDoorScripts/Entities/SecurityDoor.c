@@ -1,5 +1,13 @@
 
-class SDM_Security_Door_Base : Fence {};
+class SDM_Security_Door_Base : Fence {
+
+    bool IsClosed() {
+
+        
+
+        return false;
+    }
+};
 
 class SDM_Security_Single_Door_Base : SDM_Security_Door_Base {};
 

@@ -48,14 +48,19 @@ class ActionOpenSecurityDoor : ActionContinuousBase {
         if ( GetGame().IsServer())
             return true;
         
-        Print("ActionOpenSecurityDoor");
-
         Object targetObject = target.GetObject();
 
-        Print( "" + targetObject );
-
         if (targetObject.IsInherited( SDM_Security_Door_Base )) {
-            return true;
+
+            SDM_Security_Door_Base door;
+            Class.CastTo( door, targetObject );
+
+            Print( "" + door);
+
+            if (door.IsClosed())
+                return true;
+            else
+                return false;
         }
         
 

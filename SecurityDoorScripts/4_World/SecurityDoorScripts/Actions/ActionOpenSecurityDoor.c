@@ -14,11 +14,16 @@ class ActionOpenSecurityDoor : ActionContinuousBase {
 		m_StanceMask = DayZPlayerConstants.STANCEMASK_ALL;
 	}
 
-    override typename GetInputType()
+    override void CreateConditionComponents()
 	{
-		return DefaultActionInput;
+		m_ConditionTarget = new CCTCursor(UAMaxDistances.DEFAULT);
+		m_ConditionItem = new CCINonRuined;
 	}
 
+    override typename GetInputType()
+	{
+		return InteractActionInput;
+	}
 
 
 	override string GetText() 

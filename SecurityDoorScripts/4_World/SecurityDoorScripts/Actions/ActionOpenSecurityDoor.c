@@ -48,7 +48,6 @@ class ActionOpenSecurityDoor : ActionContinuousBase {
         Print( "" + targetObject );
 
         if (targetObject.IsInherited( SDM_Security_Door_Base )) {
-
             return true;
         }
         
@@ -56,14 +55,11 @@ class ActionOpenSecurityDoor : ActionContinuousBase {
 		return false;
 	}
 
-    
-	override void OnEndClient(ActionData action_data)
+    override  void OnFinishProgressClient( ActionData action_data )
 	{
-		super.OnEndClient( action_data );
+        super.OnFinishProgressClient( action_data );
 
-        Print("OnEndClient");
-        GetGame().ChatPlayer("OnEndClient");
-		
-		
+        Print("OnFinishProgressClient");
+        GetGame().ChatPlayer("OnFinishProgressClient");
 	}
 }

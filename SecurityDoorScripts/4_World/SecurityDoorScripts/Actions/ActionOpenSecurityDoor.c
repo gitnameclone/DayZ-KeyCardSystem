@@ -2,7 +2,7 @@ class ActionOpenSecurityDoorCB : ActionContinuousBaseCB {
 
     override void CreateActionComponent()
 	{
-		m_ActionData.m_ActionComponent = new CAContinuousTime( UATimeSpent.DEFAULT_CONSTRUCT );
+		m_ActionData.m_ActionComponent = new CAContinuousTime( 2 );
 	}
 }
 
@@ -31,10 +31,16 @@ class ActionOpenSecurityDoor : ActionContinuousBase {
         return true;
     }
 
-    override typename GetInputType()
+	override bool HasTarget()
 	{
-		return ContinuousInteractActionInput;
+		return true;
 	}
+
+	override bool HasProneException()
+	{
+		return true;
+	}
+    
 
 
 	override bool ActionCondition( PlayerBase player, ActionTarget target, ItemBase item )
@@ -69,5 +75,6 @@ class ActionOpenSecurityDoor : ActionContinuousBase {
         super.OnEndServer( action_data );
 
         Print("OnEndServer");
+
 	}
 }

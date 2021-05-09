@@ -1,11 +1,3 @@
-class ActionOpenSecurityDoorCB : ActionContinuousBaseCB {
-
-    override void CreateActionComponent()
-	{
-		m_ActionData.m_ActionComponent = new CAContinuousTime( 2 );
-	}
-}
-
 class ActionOpenSecurityDoor : ActionInteractBase {
 
     void ActionOpenSecurityDoor() 
@@ -17,23 +9,12 @@ class ActionOpenSecurityDoor : ActionInteractBase {
 
     override void CreateConditionComponents()
 	{
+        m_ConditionTarget = new CCTObject(10);
 		m_ConditionItem = new CCINonRuined;
-		m_ConditionTarget = new CCTCursor;
 	}
 
 	override string GetText() {
 		return "Swipe Card";
-	}
-
-
-    override bool HasProgress() 
-    {
-        return true;
-    }
-
-	override bool HasTarget()
-	{
-		return true;
 	}
 
 	override bool HasProneException()

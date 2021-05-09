@@ -62,11 +62,18 @@ class ActionOpenSecurityDoor : ActionContinuousBase {
 		return false;
 	}
 
-    override void OnFinishProgressClient( ActionData action_data )
+    override void OnEndClient( ActionData action_data )
 	{
-        super.OnFinishProgressClient( action_data );
+        super.OnEndClient( action_data );
 
-        Print("OnFinishProgressClient");
-        GetGame().ChatPlayer("OnFinishProgressClient");
+        Print("OnEndClient");
+        GetGame().ChatPlayer("OnEndClient");
+	}
+
+    override void OnEndServer( ActionData action_data )
+	{
+        super.OnEndServer( action_data );
+
+        Print("OnEndServer");
 	}
 }

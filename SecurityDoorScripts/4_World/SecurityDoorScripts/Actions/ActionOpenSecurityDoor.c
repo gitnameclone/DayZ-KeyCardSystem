@@ -66,4 +66,11 @@ class ActionOpenSecurityDoor : ActionContinuousBase {
         Print("OnEndServer");
 
 	}
+
+    override void OnFinishProgressServer( ActionData action_data )
+	{
+        super.OnFinishProgressServer( action_data );
+
+        Print("OnFinishProgressServer");
+    }
 }

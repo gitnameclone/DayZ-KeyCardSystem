@@ -12,23 +12,11 @@ class ActionOpenSecurityDoor : ActionContinuousBase {
         m_CallbackClass = ActionOpenSecurityDoorCB;
         m_CommandUID = DayZPlayerConstants.CMD_ACTIONMOD_INTERACTONCE;
 		m_StanceMask = DayZPlayerConstants.STANCEMASK_ALL;
-	}
 
-    override void CreateConditionComponents()
-	{
-		m_ConditionItem = new CCINone();
-		m_ConditionTarget = new CCTNone();
-	}
-
-    override typename GetInputType()
-	{
-		return DefaultActionInput;
 	}
 
 
-
-	override string GetText() 
-    {
+	override string GetText() {
 		return "Open Security Door";
 	}
 

@@ -16,14 +16,15 @@ class ActionOpenSecurityDoor : ActionContinuousBase {
 
     override void CreateConditionComponents()
 	{
-		m_ConditionTarget = new CCTCursor(UAMaxDistances.DEFAULT);
-		m_ConditionItem = new CCINonRuined;
+		m_ConditionItem = new CCINone();
+		m_ConditionTarget = new CCTNone();
 	}
 
     override typename GetInputType()
 	{
 		return InteractActionInput;
 	}
+
 
 
 	override string GetText() 

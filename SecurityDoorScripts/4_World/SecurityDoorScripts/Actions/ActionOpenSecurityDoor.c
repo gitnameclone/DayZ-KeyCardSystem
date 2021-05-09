@@ -1,20 +1,39 @@
-class ActionOpenSecurityDoor : ActionInteractBase {
+class ActionOpenSecurityDoorCB : ActionContinuousBaseCB {
+
+    override void CreateActionComponent()
+	{
+		m_ActionData.m_ActionComponent = new CAContinuousTime( 2 );
+	}
+}
+
+class ActionOpenSecurityDoor : ActionContinuousBase {
 
     void ActionOpenSecurityDoor() 
     {
-		m_CommandUID = DayZPlayerConstants.CMD_ACTIONMOD_INTERACTONCE;
+        m_CallbackClass = ActionOpenSecurityDoorCB;
+        m_CommandUID = DayZPlayerConstants.CMD_ACTIONMOD_INTERACTONCE;
 		m_StanceMask = DayZPlayerConstants.STANCEMASK_ALL;
-		m_HUDCursorIcon = CursorIcons.None;
 	}
 
     override void CreateConditionComponents()
 	{
-        m_ConditionTarget = new CCTObject(10);
 		m_ConditionItem = new CCINonRuined;
+		m_ConditionTarget = new CCTCursor;
 	}
 
 	override string GetText() {
 		return "Swipe Card";
+	}
+
+
+    override bool HasProgress() 
+    {
+        return true;
+    }
+
+	override bool HasTarget()
+	{
+		return true;
 	}
 
 	override bool HasProneException()
@@ -43,18 +62,11 @@ class ActionOpenSecurityDoor : ActionInteractBase {
 		return false;
 	}
 
-    override  void OnExecuteClient( ActionData action_data )
+    override void OnFinishProgressClient( ActionData action_data )
 	{
-        super.OnExecuteClient( action_data );
+        super.OnFinishProgressClient( action_data );
 
-        Print("OnExecuteClient");
-        GetGame().ChatPlayer("OnExecuteClient");
-	}
-
-    override void OnExecuteServer( ActionData action_data )
-	{	
-		super.OnExecuteServer( action_data );
-
-        Print("OnExecuteServer");
+        Print("OnFinishProgressClient");
+        GetGame().ChatPlayer("OnFinishProgressClient");
 	}
 }

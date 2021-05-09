@@ -2,7 +2,7 @@ class ActionOpenSecurityDoorCB : ActionContinuousBaseCB {
 
     override void CreateActionComponent()
 	{
-		m_ActionData.m_ActionComponent = new CAContinuousTime( -1.0 );
+		m_ActionData.m_ActionComponent = new CAContinuousTime( 2 );
 	}
 }
 
@@ -21,10 +21,12 @@ class ActionOpenSecurityDoor : ActionContinuousBase {
 		m_ConditionTarget = new CCTObject();
 	}
 
+    
+
 
 
 	override string GetText() {
-		return "Open Security Door";
+		return "Swipe Card";
 	}
 
     

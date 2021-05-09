@@ -45,6 +45,8 @@ class ActionOpenSecurityDoor : ActionContinuousBase {
 
 	override bool ActionCondition( PlayerBase player, ActionTarget target, ItemBase item )
 	{
+        if ( GetGame().IsServer())
+            return true;
         
         Print("ActionOpenSecurityDoor");
 

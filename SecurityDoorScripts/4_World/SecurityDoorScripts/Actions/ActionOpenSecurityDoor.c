@@ -14,8 +14,15 @@ class ActionOpenSecurityDoor : ActionContinuousBase {
 		m_StanceMask = DayZPlayerConstants.STANCEMASK_ALL;
 	}
 
+    override typename GetInputType()
+	{
+		return DefaultActionInput;
+	}
 
-	override string GetText() {
+
+
+	override string GetText() 
+    {
 		return "Open Security Door";
 	}
 

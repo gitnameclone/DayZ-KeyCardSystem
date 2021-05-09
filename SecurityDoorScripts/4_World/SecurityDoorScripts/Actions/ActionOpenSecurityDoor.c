@@ -22,7 +22,7 @@ class ActionOpenSecurityDoor : ActionContinuousBase {
 
     override typename GetInputType()
 	{
-		return InteractActionInput;
+		return DefaultActionInput;
 	}
 
 

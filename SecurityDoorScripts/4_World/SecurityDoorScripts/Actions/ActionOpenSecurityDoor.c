@@ -8,27 +8,33 @@ class ActionOpenSecurityDoorCB : ActionContinuousBaseCB {
 
 class ActionOpenSecurityDoor : ActionContinuousBase {
 
-    void ActionOpenSecurityDoor() {
+    void ActionOpenSecurityDoor() 
+    {
         m_CallbackClass = ActionOpenSecurityDoorCB;
         m_CommandUID = DayZPlayerConstants.CMD_ACTIONMOD_INTERACTONCE;
 		m_StanceMask = DayZPlayerConstants.STANCEMASK_ALL;
-
 	}
 
     override void CreateConditionComponents()
 	{
-		m_ConditionItem = new CCINonRuined();
-		m_ConditionTarget = new CCTObject();
+		m_ConditionItem = new CCINonRuined;
+		m_ConditionTarget = new CCTCursor;
 	}
-
-    
-
-
 
 	override string GetText() {
 		return "Swipe Card";
 	}
 
+
+	override bool HasTarget()
+	{
+		return true;
+	}
+
+	override bool HasProneException()
+	{
+		return true;
+	}
     
 
 

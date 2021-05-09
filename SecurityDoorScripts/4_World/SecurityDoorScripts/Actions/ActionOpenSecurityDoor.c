@@ -2,7 +2,7 @@ class ActionOpenSecurityDoorCB : ActionContinuousBaseCB {
 
     override void CreateActionComponent()
 	{
-		m_ActionData.m_ActionComponent = new CAContinuousTime( 2 );
+		m_ActionData.m_ActionComponent = new CAContinuousTime( 10 );
 	}
 }
 
@@ -30,17 +30,6 @@ class ActionOpenSecurityDoor : ActionContinuousBase {
     {
         return true;
     }
-
-	override bool HasTarget()
-	{
-		return true;
-	}
-
-	override bool HasProneException()
-	{
-		return true;
-	}
-    
 
 
 	override bool ActionCondition( PlayerBase player, ActionTarget target, ItemBase item )

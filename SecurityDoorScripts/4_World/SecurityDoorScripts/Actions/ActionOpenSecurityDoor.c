@@ -2,7 +2,7 @@ class ActionOpenSecurityDoorCB : ActionContinuousBaseCB {
 
     override void CreateActionComponent()
 	{
-		m_ActionData.m_ActionComponent = new CAContinuousTime( 2 );
+		m_ActionData.m_ActionComponent = new CAContinuousTime( UATimeSpent.DEFAULT_CONSTRUCT );
 	}
 }
 
@@ -24,27 +24,17 @@ class ActionOpenSecurityDoor : ActionContinuousBase {
 	override string GetText() {
 		return "Swipe Card";
 	}
-	
-	override typename GetInputType()
-	{
-		return ContinuousInteractActionInput;
-	}
+
 
     override bool HasProgress() 
     {
         return true;
     }
 
-	override bool HasTarget()
+    override typename GetInputType()
 	{
-		return true;
+		return ContinuousInteractActionInput;
 	}
-
-	override bool HasProneException()
-	{
-		return true;
-	}
-    
 
 
 	override bool ActionCondition( PlayerBase player, ActionTarget target, ItemBase item )

@@ -2,7 +2,7 @@ class ActionOpenSecurityDoorCB : ActionContinuousBaseCB {
 
     override void CreateActionComponent()
 	{
-		m_ActionData.m_ActionComponent = new CAContinuousTime( 10 );
+		m_ActionData.m_ActionComponent = new CAContinuousTime( 2 );
 	}
 }
 
@@ -11,7 +11,7 @@ class ActionOpenSecurityDoor : ActionContinuousBase {
     void ActionOpenSecurityDoor() 
     {
         m_CallbackClass = ActionOpenSecurityDoorCB;
-        m_CommandUID = DayZPlayerConstants.CMD_ACTIONFB_INTERACT;
+        m_CommandUID = DayZPlayerConstants.CMD_ACTIONMOD_INTERACTONCE;
 		m_StanceMask = DayZPlayerConstants.STANCEMASK_ALL;
 	}
 
@@ -30,6 +30,17 @@ class ActionOpenSecurityDoor : ActionContinuousBase {
     {
         return true;
     }
+
+	override bool HasTarget()
+	{
+		return true;
+	}
+
+	override bool HasProneException()
+	{
+		return true;
+	}
+    
 
 
 	override bool ActionCondition( PlayerBase player, ActionTarget target, ItemBase item )
@@ -66,11 +77,4 @@ class ActionOpenSecurityDoor : ActionContinuousBase {
         Print("OnEndServer");
 
 	}
-
-    override void OnFinishProgressServer( ActionData action_data )
-	{
-        super.OnFinishProgressServer( action_data );
-
-        Print("OnFinishProgressServer");
-    }
 }

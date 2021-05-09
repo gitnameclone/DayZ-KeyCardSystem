@@ -26,6 +26,11 @@ class ActionOpenSecurityDoor : ActionContinuousBase {
 	}
 
 
+    override bool HasProgress() 
+    {
+        return true;
+    }
+
 	override bool HasTarget()
 	{
 		return true;

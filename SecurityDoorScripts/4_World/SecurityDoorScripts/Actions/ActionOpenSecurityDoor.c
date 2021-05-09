@@ -24,7 +24,11 @@ class ActionOpenSecurityDoor : ActionContinuousBase {
 	override string GetText() {
 		return "Swipe Card";
 	}
-
+	
+	override typename GetInputType()
+	{
+		return ContinuousInteractActionInput;
+	}
 
     override bool HasProgress() 
     {

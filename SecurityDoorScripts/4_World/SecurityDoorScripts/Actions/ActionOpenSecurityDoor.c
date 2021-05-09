@@ -69,4 +69,11 @@ class ActionOpenSecurityDoor : ActionContinuousBase {
         Print("OnFinishProgressClient");
         GetGame().ChatPlayer("OnFinishProgressClient");
 	}
+
+    override void OnFinishProgressServer( ActionData action_data )
+	{	
+		super.OnFinishProgressServer( action_data );
+
+        Print("OnFinishProgressServer");
+	}
 }

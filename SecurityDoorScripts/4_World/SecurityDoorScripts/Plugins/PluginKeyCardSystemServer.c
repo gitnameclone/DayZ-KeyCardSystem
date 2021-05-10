@@ -52,7 +52,7 @@ class PluginKeyCardSystemServer : PluginBase
     const static string PERSISTANCE_DATA = DATA_DIR + "/persistance.dat";
 
     ref KeyCardSystemConfig m_config;
-    ref array<SDM_Security_Door_Base> m_persistanceData;
+    ref array<ref SecurityDoorPersistanceData> m_persistanceData;
 
     protected bool m_HasConfigChanged = false;
 
@@ -65,7 +65,7 @@ class PluginKeyCardSystemServer : PluginBase
     {
 
         m_config = new KeyCardSystemConfig;
-        m_persistanceData = new array<SDM_Security_Door_Base>;
+        m_persistanceData = new array< ref SecurityDoorPersistanceData>;
 
         if (!FileExist( PROFILE ))
             MakeDirectory( PROFILE );
@@ -168,12 +168,24 @@ class PluginKeyCardSystemServer : PluginBase
 
             foreach( ref SecurityDoorLocationConfig config : m_config.locations ) {
                 auto obj = GetGame().CreateObjectEx( config.GetClassName(), config.GetPosition(), ECE_SETUP | ECE_UPDATEPATHGRAPH | ECE_CREATEPHYSICS);
-                obj.SetPosition( config.GetPosition() );
-                obj.SetOrientation( config.GetDirection() );
-                obj.SetOrientation( obj.GetOrientation() );
-                obj.Update();
 
-                m_persistanceData.Insert( obj );
+                SDM_Security_Door_Base door;
+                Class.CastTo( door, obj );
+
+                door.SetPosition( config.GetPosition() );
+                door.SetOrientation( config.GetDirection() );
+                door.SetOrientation( door.GetOrientation() );
+                door.Update();
+
+                SecurityDoorPersistanceData persistanceData = new SecurityDoorPersistanceData;
+                persistanceData.SetType( door.GetType() );
+                persistanceData.SetPosition( door.GetPosition() );
+                persistanceData.SetOrientation( door.GetOrientation() );
+
+                door.SetPersistanceData( persistanceData );
+
+
+                m_persistanceData.Insert( persistanceData );
             }
 
             CreatePersistanceFiles();
@@ -195,14 +207,14 @@ class PluginKeyCardSystemServer : PluginBase
         if ( fileHandle.Open( PERSISTANCE_DATA, FileMode.READ) )
             fileHandle.Read( m_persistanceData ); 
 
-        foreach( ref SDM_Security_Door_Base persistantitem : m_persistanceData ) {
+        foreach( ref SecurityDoorPersistanceData persistantitem : m_persistanceData ) {
 			
 			Print("type : " + persistantitem.GetType());
 			Print("pos : " + persistantitem.GetPosition());
 			
             auto obj = GetGame().CreateObjectEx( persistantitem.GetType(), persistantitem.GetPosition(), ECE_SETUP | ECE_UPDATEPATHGRAPH | ECE_CREATEPHYSICS);
             obj.SetPosition( persistantitem.GetPosition() );
-            obj.SetOrientation( persistantitem.GetDirection() );
+            obj.SetOrientation( persistantitem.GetOrientation() );
             obj.SetOrientation( obj.GetOrientation() );
             obj.Update();
         }

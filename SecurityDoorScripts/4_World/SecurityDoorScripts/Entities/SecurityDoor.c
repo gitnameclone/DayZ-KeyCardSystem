@@ -3,6 +3,12 @@ class SecurityDoorPersistanceData {
     vector location;
     vector dir;
 
+    ref map<int, bool> m_DoorState;
+
+    void SecurityDoorPersistanceData() {
+        m_DoorState = new map<int, bool>;
+    }
+
     string GetType() {
         return className;
     }
@@ -13,6 +19,10 @@ class SecurityDoorPersistanceData {
 
     vector GetOrientation() {
         return dir;
+    }
+
+    bool IsOpen( int index ) {
+        return m_DoorState[ index ];
     }
 
     void SetType( string ClassName ) {
@@ -26,23 +36,65 @@ class SecurityDoorPersistanceData {
     void SetOrientation( vector Orientation) {
         dir = Orientation;
     }
+
+    void SetIsOpen( int index, bool state ) {
+        m_DoorState[ index ] = state;
+    }
+    
 }
 
 class SDM_Security_Door_Base : Building {
-    ref SecurityDoorPersistanceData m_persistanceData = new SecurityDoorPersistanceData();
+    ref SecurityDoorPersistanceData m_persistanceData;
 
-    void SetPersistanceData( ref SecurityDoorPersistanceData data ) {
+    float m_TimeTillAutoClose;
+
+    void SetPersistanceData( ref SecurityDoorPersistanceData data ) 
+    {
         m_persistanceData = data;
+
+        /* Update door state */
+        foreach( int index, bool state : m_persistanceData.m_DoorState ) 
+            if (state == true)
+                this.OpenDoor( index );
+
     }
 
-    void UpdatePersistance() {
+    void UpdatePersistance() 
+    {
         m_persistanceData.className = this.GetType();
         m_persistanceData.location = this.GetPosition();
         m_persistanceData.dir = this.GetDirection();
+
+        foreach( int index, bool state : m_persistanceData.m_DoorState )
+            m_persistanceData.m_DoorState[index] = IsDoorOpen( index );
     }
 
-    ref SecurityDoorPersistanceData GetPersistanceData() {
+    ref SecurityDoorPersistanceData GetPersistanceData() 
+    {
         return m_persistanceData;
+    }
+
+
+    void SetTimeTillAutoClose( float time ) 
+    {
+        m_TimeTillAutoClose = time;
+    }
+
+    float TimeTillAutoClose() 
+    {
+        return m_TimeTillAutoClose;
+    }
+
+    void Open( int index ) 
+    {
+        this.OpenDoor( index );
+        m_persistanceData.SetIsOpen( index, true);
+    }
+
+    void Close( int index )
+    {
+        this.CloseDoor( index );
+        m_persistanceData.SetIsOpen( index, false);
     }
 };
 

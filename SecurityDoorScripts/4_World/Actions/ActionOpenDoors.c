@@ -38,4 +38,26 @@ modded class ActionOpenDoors
 
         return super.ActionCondition( player, target, item );
 	}
+
+    override void OnStartServer( ActionData action_data )
+	{
+        if ( m_IsSecurityDoor ) 
+        {
+            SDM_Security_Door_Base door;
+
+            if (Class.CastTo( door, action_data.m_Target.GetObject())) {
+
+                int doorIndex = door.GetDoorIndex(action_data.m_Target.GetComponentIndex());
+                if ( doorIndex != -1 )
+                    door.Open( doorIndex );
+
+                return;
+            }
+            
+        }
+
+        super.OnStartServer( action_data );
+
+	}
+	
 }

@@ -50,7 +50,7 @@ class KeyCardSystemConfig
 
 class PluginKeyCardSystemServer : PluginBase 
 {
-    const static int VERSION = 4;
+    const static int VERSION = 5;
 
     const static string PROFILE = "$profile:KeyCardSystem";
     const static string CONFIG = PROFILE + "/config.json";
@@ -207,6 +207,7 @@ class PluginKeyCardSystemServer : PluginBase
         }
 
         /* TODO: Start timer for monitor */
+        GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater( SavePersistance, 3000,  true );
 
     }
 
@@ -239,7 +240,6 @@ class PluginKeyCardSystemServer : PluginBase
 
     protected void CreatePersistanceFiles() 
     {
-
         FileSerializer fileHandle = new FileSerializer();
 
         /* Create locations data for config change comparison */
@@ -250,5 +250,24 @@ class PluginKeyCardSystemServer : PluginBase
         if ( fileHandle.Open( PERSISTANCE_DATA, FileMode.WRITE) )
             fileHandle.Write( m_persistanceData ); 
 
+    }
+
+    protected void SavePersistance()
+    {
+        Print("Saving Persistance...");
+
+        foreach( ref SecurityDoorPersistanceData data : m_persistanceData){
+
+            foreach( int index, bool state: data.m_DoorState) {
+
+                Print( "index: " + index + " state: " + state);
+            }
+
+        }
+
+        FileSerializer fileHandle = new FileSerializer();
+
+        if ( fileHandle.Open( PERSISTANCE_DATA, FileMode.WRITE) )
+            fileHandle.Write( m_persistanceData ); 
     }
 }

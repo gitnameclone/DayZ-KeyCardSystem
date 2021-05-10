@@ -30,6 +30,8 @@ modded class ActionOpenDoors
 
         string doorType = target.GetType();
 
+        Print("CanAuthorize : " + card.CanAuthorizeDoor( doorType ));
+
         return card.CanAuthorizeDoor( doorType );
 
     }

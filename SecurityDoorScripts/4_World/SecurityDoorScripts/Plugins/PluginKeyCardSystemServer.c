@@ -50,7 +50,7 @@ class KeyCardSystemConfig
 
 class PluginKeyCardSystemServer : PluginBase 
 {
-    const static int VERSION = 2;
+    const static int VERSION = 3;
 
     const static string PROFILE = "$profile:KeyCardSystem";
     const static string CONFIG = PROFILE + "/config.json";
@@ -174,8 +174,7 @@ class PluginKeyCardSystemServer : PluginBase
         *   Has to be called from OnMissionStart() 
         */
 
-        Print("Spawning doors...");
-
+        int i = 0;
 
         if ( m_HasConfigChanged ) {
             /* config has changed, delete old persistance files and create new. */
@@ -196,6 +195,7 @@ class PluginKeyCardSystemServer : PluginBase
                 persistanceData.SetType( door.GetType() );
                 persistanceData.SetPosition( door.GetPosition() );
                 persistanceData.SetOrientation( door.GetOrientation() );
+                persistanceData.randomvar = i++;
 
                 door.SetPersistanceData( persistanceData );
 
@@ -226,6 +226,7 @@ class PluginKeyCardSystemServer : PluginBase
 			
 			Print("type : " + persistantitem.GetType());
 			Print("pos : " + persistantitem.GetPosition());
+            Print("randomvar : " + persistantitem.randomvar);
 			
             auto obj = GetGame().CreateObjectEx( persistantitem.GetType(), persistantitem.GetPosition(), ECE_SETUP | ECE_UPDATEPATHGRAPH | ECE_CREATEPHYSICS);
             

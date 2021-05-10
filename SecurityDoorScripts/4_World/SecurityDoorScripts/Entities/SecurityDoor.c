@@ -3,6 +3,8 @@ class SecurityDoorPersistanceData {
     vector location;
     vector dir;
 
+    int randomvar;
+    
     string GetType() {
         return className;
     }

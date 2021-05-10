@@ -69,7 +69,6 @@ class PluginKeyCardSystemServer : PluginBase
         if ( !FileExist( CONFIG )) 
         {
             m_config.InsertLocation( "SDM_Security_Double_Door_Lvl_4", "8336.31 6.364 2941.23", "0 0 0" );
-            m_config.InsertLocation( "SDM_Security_Double_Door_Lvl_4", "8337.31 6.364 2941.23", "0 0 0" );
 
             JsonFileLoader<ref KeyCardSystemConfig>.JsonSaveFile( CONFIG, m_config);
         }
@@ -99,9 +98,10 @@ class PluginKeyCardSystemServer : PluginBase
         ref array< ref SecurityDoorLocationConfig > prev_locations = new array< ref SecurityDoorLocationConfig >;
         FileSerializer fileHandle = new FileSerializer();
 
-        if ( fileHandle.Open( LOCATION_DATA, FileMode.READ) )
+        if ( fileHandle.Open( LOCATION_DATA, FileMode.READ) ) {
             fileHandle.Read(prev_locations);
-        else
+            fileHandle.Close();
+        } else
             return false; /* Corrupted files probably, reset persistance data */
 
         if ( m_config.locations.Count() != prev_locations.Count() )
@@ -171,6 +171,17 @@ class PluginKeyCardSystemServer : PluginBase
             obj.SetOrientation( obj.GetOrientation() );
             obj.Update();
         }
+
+        CreatePersistanceFiles();
+    }
+
+    protected void CreatePersistanceFiles() 
+    {
+        FileSerializer fileHandle = new FileSerializer();
+
+        /* Create locations data for config change comparison */
+        if ( fileHandle.Open( LOCATION_DATA, FileMode.READ) )
+            fileHandle.Write( m_config.locations );
 
     }
 }

@@ -12,4 +12,4 @@ modded class ActionCloseDoors
 
         return super.ActionCondition( player, target, item);
 	}
-};
+}

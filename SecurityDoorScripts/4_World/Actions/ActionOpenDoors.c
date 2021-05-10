@@ -31,6 +31,10 @@ modded class ActionOpenDoors
 
     }
 
+    protected ItemBase GetItemInHands( PlayerBase player) {
+        return player.GetItemInHands();
+    }
+
     override bool ActionCondition( PlayerBase player, ActionTarget target, ItemBase item )
 	{
         if (!target)
@@ -40,15 +44,17 @@ modded class ActionOpenDoors
 
         if( m_IsSecurityDoor ) 
         {
+            ItemBase inHandItem = GetItemInHands( player );
+
             SDM_Keycard_Base keyCard;
 
-            if (item)
-                Class.CastTo( keyCard, item);
+            if (inHandItem)
+                Class.CastTo( keyCard, inHandItem);
 
             if( CanAuthorize( target.GetObject(), keyCard ) ) 
             {
                 m_actionTXT = "Swipe Card";
-                return super.ActionCondition( player, target, item );
+                return super.ActionCondition( player, target, inHandItem );
             }
             else
                 return false;

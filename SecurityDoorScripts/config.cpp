@@ -17,6 +17,7 @@ class CfgMods
         type = "mod";
         dependencies[]=
 		{
+            "World",
 			"Mission"
 		};
         class defs

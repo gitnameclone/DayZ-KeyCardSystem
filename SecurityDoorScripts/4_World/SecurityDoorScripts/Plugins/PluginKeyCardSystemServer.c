@@ -193,7 +193,7 @@ class PluginKeyCardSystemServer : PluginBase
 		 FileSerializer fileHandle = new FileSerializer();
 		
         if ( fileHandle.Open( PERSISTANCE_DATA, FileMode.READ) )
-            fileHandle.Write( m_persistanceData ); 
+            fileHandle.Read( m_persistanceData ); 
 
         foreach( ref SDM_Security_Door_Base persistantitem : m_persistanceData ) {
 			

@@ -177,6 +177,9 @@ class PluginKeyCardSystemServer : PluginBase
         int i = 0;
 
         if ( m_HasConfigChanged ) {
+
+            Print("cant Loading old persistance");
+
             /* config has changed, delete old persistance files and create new. */
             DeletePersistanceFiles();
 
@@ -206,8 +209,12 @@ class PluginKeyCardSystemServer : PluginBase
             CreatePersistanceFiles();
 
         } else {
+
+            Print("Loading old persistance");
+
             /* Load old persistance data */
             LoadOldPersistance();
+
 
         }
 

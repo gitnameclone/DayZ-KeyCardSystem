@@ -70,13 +70,10 @@ modded class ActionOpenDoors
         if ( m_IsSecurityDoor ) 
         {
             m_ItemInHands = action_data.m_Player.GetItemInHands();
-            if ( !m_ItemInHands.IsInherited( SDM_Keycard_Base ) ) {
-                m_ItemInHands.Delete();
+            if ( !m_ItemInHands.IsInherited( SDM_Keycard_Base ) )
                 return;
-            }
-
-
-
+            
+            m_ItemInHands.Delete();
 
             SDM_Security_Door_Base door;
 

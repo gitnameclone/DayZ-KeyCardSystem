@@ -87,7 +87,7 @@ class PluginKeyCardSystemServer : PluginBase
 
         JsonFileLoader<ref KeyCardSystemConfig>.JsonLoadFile( CONFIG, m_config);
 
-        if( m_config.version != Version) 
+        if( m_config.version != VERSION) 
         {
             DeletePersistanceFiles();
             m_config.SetVersion( VERSION );

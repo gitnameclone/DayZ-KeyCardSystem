@@ -23,6 +23,6 @@ modded class ActionOpenDoors
             m_actionTXT = "Swipe Card";
 
 
-        return ActionCondition( player, target, item );
+        return super.ActionCondition( player, target, item );
 	}
 }

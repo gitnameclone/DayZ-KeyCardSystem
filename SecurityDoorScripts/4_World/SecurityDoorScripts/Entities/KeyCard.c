@@ -21,6 +21,9 @@ class SDM_Keycard_Lvl_3 : SDM_Keycard_Base {
 };
 class SDM_Keycard_Lvl_4 : SDM_Keycard_Base {
     override bool CanAuthorizeDoor( string type ) {
+
+        Print( type );
+
         return type == "SDM_Security_Single_Door_Lvl_4" || type == "SDM_Security_Double_Door_Lvl_4";
     }
 };

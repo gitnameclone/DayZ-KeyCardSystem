@@ -1,12 +1,4 @@
 class SDM_Keycard_Base : ItemBase {
-
-    override void SetActions()
-	{
-		super.SetActions();
-		
-		AddAction(ActionOpenSecurityDoor);
-	} 
-
 };
 
 class SDM_Keycard_Lvl_1 : SDM_Keycard_Base {};

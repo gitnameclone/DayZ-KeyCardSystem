@@ -282,7 +282,7 @@ class PluginKeyCardSystemServer : PluginBase
 
     protected void UpdateDoorTimers() {
 
-        float timeDelta = REFRESH_RATE;
+        float timeDelta = REFRESH_RATE * 1000;
 
         foreach ( SDM_Security_Door_Base door : m_Doors) {
 

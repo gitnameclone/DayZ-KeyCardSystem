@@ -180,14 +180,37 @@ class PluginKeyCardSystemServer : PluginBase
 
         } else {
             /* Load old persistance data */
+            LoadOldPersistance();
+
+        }
+
+        /* Start timer for monitor */
+
+    }
+
+    protected void LoadOldPersistance() 
+    {
+		 FileSerializer fileHandle = new FileSerializer();
+		
+        if ( fileHandle.Open( PERSISTANCE_DATA, FileMode.READ) )
+            fileHandle.Write( m_persistanceData ); 
+
+        foreach( ref SDM_Security_Door_Base persistantitem : m_persistanceData ) {
+			
+			Print("type : " + persistantitem.GetType());
+			Print("pos : " + persistantitem.GetPosition());
+			
+            auto obj = GetGame().CreateObjectEx( persistantitem.GetType(), persistantitem.GetPosition(), ECE_SETUP | ECE_UPDATEPATHGRAPH | ECE_CREATEPHYSICS);
+            obj.SetPosition( persistantitem.GetPosition() );
+            obj.SetOrientation( persistantitem.GetDirection() );
+            obj.SetOrientation( obj.GetOrientation() );
+            obj.Update();
         }
 
     }
 
     protected void CreatePersistanceFiles() 
     {
-
-
 
         FileSerializer fileHandle = new FileSerializer();
 
@@ -197,9 +220,7 @@ class PluginKeyCardSystemServer : PluginBase
 
         /* Create persistance for objects */
         if ( fileHandle.Open( PERSISTANCE_DATA, FileMode.WRITE) )
-            fileHandle.Write( m_persistanceData );
-
-        
+            fileHandle.Write( m_persistanceData ); 
 
     }
 }

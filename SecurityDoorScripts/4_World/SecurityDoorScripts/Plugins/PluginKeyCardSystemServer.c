@@ -180,7 +180,7 @@ class PluginKeyCardSystemServer : PluginBase
         FileSerializer fileHandle = new FileSerializer();
 
         /* Create locations data for config change comparison */
-        if ( fileHandle.Open( LOCATION_DATA, FileMode.READ) )
+        if ( fileHandle.Open( LOCATION_DATA, FileMode.WRITE) )
             fileHandle.Write( m_config.locations );
 
     }

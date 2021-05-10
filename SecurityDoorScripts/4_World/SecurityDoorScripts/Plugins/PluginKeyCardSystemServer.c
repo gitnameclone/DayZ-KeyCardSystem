@@ -48,7 +48,8 @@ class PluginKeyCardSystemServer : PluginBase
     const static string CONFIG = PROFILE + "/config.json";
 
     const static string DATA_DIR = PROFILE + "/data";
-    const static string LOCATION_CACHE = DATA_DIR + "cache.data";
+    const static string LOCATION_DATA = DATA_DIR + "/cache.dat";
+    const static string PERSISTANCE_DATA = DATA_DIR + "/persistance.dat";
 
     ref KeyCardSystemConfig m_config;
 
@@ -56,7 +57,7 @@ class PluginKeyCardSystemServer : PluginBase
     {
         Init();
 
-        UpdateCache();
+        CompareOldPersitance();
     }
 
     void Init() 
@@ -79,14 +80,41 @@ class PluginKeyCardSystemServer : PluginBase
     }
 
     /* 
-    *   Compares current config with cache.
-    *   Resets cache if there's any changes.
+    *   Compares current config with previous persitance data.
+    *   Resets data if there's any changes.
     */
-    void UpdateCache() {
+    void CompareOldPersitance() {
+
+        if ( !FileExist( DATA_DIR ) )
+            MakeDirectory( DATA_DIR );
+        
+        if ( !FileExist( LOCATION_DATA ) || !FileExist( PERSISTANCE_DATA ))   
+            return;     /* data doesn't exist, return */
+
+
+        ref array< ref SecurityDoorLocationConfig > prev_locations = new array< ref SecurityDoorLocationConfig >;
+        FileSerializer fileHandle = new FileSerializer();
+
+        if ( fileHandle.Open( LOCATION_DATA, FileMode.READ) )
+            fileHandle.Read(prev_locations);
+        else {
+            DeletePersistanceFiles(); /* Corrupted files probably, reset persistance data */
+            return;
+        }
+
+        foreach( ref SecurityDoorLocationConfig p_config : prev_locations ) {
+            
+            Print( string.Format("%1 %2 %3", p_config.GetClassName(), p_config.GetPosition(), p_config.GetDirection() ) );
+        }
 
         foreach( ref SecurityDoorLocationConfig config : m_config.locations ) {
             
             Print( string.Format("%1 %2 %3", config.GetClassName(), config.GetPosition(), config.GetDirection() ) );
         }
+    }
+
+    protected void DeletePersistanceFiles() {
+        DeleteFile( LOCATION_DATA );
+        DeleteFile( PERSISTANCE_DATA );
     }
 }

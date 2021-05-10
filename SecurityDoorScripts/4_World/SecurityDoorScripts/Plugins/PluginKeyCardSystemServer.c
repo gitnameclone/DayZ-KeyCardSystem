@@ -50,7 +50,7 @@ class KeyCardSystemConfig
 
 class PluginKeyCardSystemServer : PluginBase 
 {
-    const static int VERSION = 5;
+    const static int VERSION = 6;
 
     const static string PROFILE = "$profile:KeyCardSystem";
     const static string CONFIG = PROFILE + "/config.json";

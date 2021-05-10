@@ -28,10 +28,12 @@ class SecurityDoorLocationConfig
 
 class KeyCardSystemConfig 
 {
+    int version;
     ref array< ref SecurityDoorLocationConfig > locations;
 
-    void KeyCardSystemConfig() 
+    void KeyCardSystemConfig( int Version ) 
     {
+        version = Version;
         locations = new array< ref SecurityDoorLocationConfig >;
     }
 
@@ -40,10 +42,16 @@ class KeyCardSystemConfig
         locations.Insert( new SecurityDoorLocationConfig( className, pos, dir ));
     }
 
+    void SetVersion( int Version ) {
+        version = Version;
+    }
+
 }
 
 class PluginKeyCardSystemServer : PluginBase 
 {
+    const static int VERSION = 2;
+
     const static string PROFILE = "$profile:KeyCardSystem";
     const static string CONFIG = PROFILE + "/config.json";
 
@@ -64,7 +72,7 @@ class PluginKeyCardSystemServer : PluginBase
     void Init() 
     {
 
-        m_config = new KeyCardSystemConfig;
+        m_config = new KeyCardSystemConfig(VERSION);
         m_persistanceData = new array< ref SecurityDoorPersistanceData>;
 
         if (!FileExist( PROFILE ))
@@ -78,6 +86,13 @@ class PluginKeyCardSystemServer : PluginBase
         }
 
         JsonFileLoader<ref KeyCardSystemConfig>.JsonLoadFile( CONFIG, m_config);
+
+        if( m_config.version != Version) 
+        {
+            DeletePersistanceFiles();
+            m_config.SetVersion( VERSION );
+            JsonFileLoader<ref KeyCardSystemConfig>.JsonSaveFile( CONFIG, m_config);
+        }
 
 
         m_HasConfigChanged = HasConfigChanged();
@@ -213,10 +228,18 @@ class PluginKeyCardSystemServer : PluginBase
 			Print("pos : " + persistantitem.GetPosition());
 			
             auto obj = GetGame().CreateObjectEx( persistantitem.GetType(), persistantitem.GetPosition(), ECE_SETUP | ECE_UPDATEPATHGRAPH | ECE_CREATEPHYSICS);
-            obj.SetPosition( persistantitem.GetPosition() );
-            obj.SetOrientation( persistantitem.GetOrientation() );
-            obj.SetOrientation( obj.GetOrientation() );
-            obj.Update();
+            
+			SDM_Security_Door_Base door;
+            Class.CastTo( door, obj );
+			
+			door.SetPosition( persistantitem.GetPosition() );
+            door.SetOrientation( persistantitem.GetOrientation() );
+            door.SetOrientation( door.GetOrientation() );
+            door.Update();
+			
+			door.SetPersistanceData( persistantitem );
+			
+			
         }
 
     }

@@ -30,8 +30,6 @@ modded class ActionOpenDoors
 
         string doorType = target.GetType();
 
-        Print("CanAuthorize : " + card.CanAuthorizeDoor( doorType ));
-
         return card.CanAuthorizeDoor( doorType );
 
     }
@@ -41,7 +39,12 @@ modded class ActionOpenDoors
         if (!target)
             return false;
 
-        m_IsSecurityDoor = IsSecurityDoor( target.GetObject()) && CanAuthorize( target.GetObject(), item );
+        m_IsSecurityDoor = IsSecurityDoor( target.GetObject());
+
+        if( m_IsSecurityDoor )
+            if( !CanAuthorize( target.GetObject(), item ) )
+                return false;
+        
 
         SDM_Keycard_Base keyCard;
 

@@ -76,8 +76,10 @@ class PluginKeyCardSystemServer : PluginBase
 
         JsonFileLoader<ref KeyCardSystemConfig>.JsonLoadFile( CONFIG, m_config);
 
-        if (!CompareOldPersitance())        /* Check for changes in config */
+        if (!CompareOldPersitance()) /* Check for changes in config */
+        {       
             DeletePersistanceFiles();
+        }
     }
 
     /* 
@@ -85,8 +87,8 @@ class PluginKeyCardSystemServer : PluginBase
     *   True - OK
     *   False - corrupted/changed
     */
-    protected bool CompareOldPersitance() {
-
+    protected bool CompareOldPersitance() 
+    {
         if ( !FileExist( DATA_DIR ) )
             MakeDirectory( DATA_DIR );
         
@@ -99,15 +101,14 @@ class PluginKeyCardSystemServer : PluginBase
 
         if ( fileHandle.Open( LOCATION_DATA, FileMode.READ) )
             fileHandle.Read(prev_locations);
-        else {
+        else
             return false; /* Corrupted files probably, reset persistance data */
-        }
 
         if ( m_config.locations.Count() != prev_locations.Count() )
             return false;
 
-        for ( int i=0; i<m_config.locations.Count(); i++ ) {
-
+        for ( int i=0; i<m_config.locations.Count(); i++ ) 
+        {
             ref SecurityDoorLocationConfig currentConfig = m_config.locations[i];
             ref SecurityDoorLocationConfig persistanceConfig = prev_locations[i];
 
@@ -143,8 +144,33 @@ class PluginKeyCardSystemServer : PluginBase
         return true;
     }
 
-    protected void DeletePersistanceFiles() {
+    protected void DeletePersistanceFiles() 
+    {
         DeleteFile( LOCATION_DATA );
         DeleteFile( PERSISTANCE_DATA );
+    }
+
+
+    void SpawnItems() 
+    {
+        /*
+        *   Has to be called from OnMissionStart() 
+        */
+
+        Print("Spawning doors...");
+
+        foreach( ref SecurityDoorLocationConfig config : m_config.locations ) {
+
+            auto obj = GetGame().CreateObjectEx( config.GetClassName(), config.GetPosition(), ECE_SETUP | ECE_UPDATEPATHGRAPH | ECE_CREATEPHYSICS);
+
+            if ( !obj )
+                continue;
+
+            obj.SetPosition( config.GetPosition() );
+            obj.SetOrientation( config.GetDirection() );
+            obj.SetOrientation( obj.GetOrientation() );
+            obj.Update();
+        }
+
     }
 }

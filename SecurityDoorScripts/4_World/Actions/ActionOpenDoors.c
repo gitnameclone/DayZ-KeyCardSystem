@@ -8,8 +8,11 @@ modded class ActionOpenDoors
 		return m_actionTXT;
 	}
 
-    bool IsSecurityDoor(Object target) 
+    protected bool IsSecurityDoor(Object target) 
     {
+        if ( !target ) 
+			return false;
+
         SDM_Security_Door_Base door;
         if ( Class.CastTo(door, target))
             return true;
@@ -19,16 +22,17 @@ modded class ActionOpenDoors
 
     override bool ActionCondition( PlayerBase player, ActionTarget target, ItemBase item )
 	{
+        if (!target)
+            return false;
 
-        if ( !target ) 
-			return false;
+        m_IsSecurityDoor = IsSecurityDoor( target.GetObject());
 
         SDM_Keycard_Base keyCard;
 
         if (item)
             Class.CastTo( keyCard, item);
 
-		if (keyCard && IsSecurityDoor( target.GetObject())) 
+		if (keyCard && m_IsSecurityDoor) 
             m_actionTXT = "Swipe Card";
 
 

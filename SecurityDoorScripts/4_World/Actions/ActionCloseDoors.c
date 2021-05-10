@@ -1,13 +1,24 @@
 modded class ActionCloseDoors
 {
-    override bool ActionCondition( PlayerBase player, ActionTarget target, ItemBase item )
-	{
-		if ( !target ) 
+
+    protected bool IsSecurityDoor(Object target) 
+    {
+        if ( !target ) 
 			return false;
 
         SDM_Security_Door_Base door;
+        if ( Class.CastTo(door, target))
+            return true;
 
-        if ( Class.CastTo(door, target.GetObject()) )
+        return false;
+    }
+
+    override bool ActionCondition( PlayerBase player, ActionTarget target, ItemBase item )
+	{
+        if (!target)
+            return false;
+
+        if ( IsSecurityDoor(target.GetObject()) )
             return false;
 
         return super.ActionCondition( player, target, item);

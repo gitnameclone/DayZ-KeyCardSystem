@@ -10,6 +10,6 @@ modded class ActionCloseDoors
         if ( Class.CastTo(door, target.GetObject()) )
             return false;
 
-        return super.ActionCondition();
+        return super.ActionCondition( player, target, item);
 	}
 };

@@ -16,11 +16,12 @@ modded class ActionOpenDoors
         SDM_Security_Door_Base door;
         SDM_Keycard_Base keyCard;
 
-		if (Class.CastTo(door, target.GetObject())) 
-            if (Class.CastTo(keyCard, item))
-                m_actionTXT = "Swipe Card";
-            else
-                return false;
+        if (item)
+            Class.CastTo( keyCard, item);
+
+		if (keyCard && Class.CastTo(door, target.GetObject())) 
+            m_actionTXT = "Swipe Card";
+
 
         return ActionCondition( player, target, item );
 	}

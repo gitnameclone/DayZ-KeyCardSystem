@@ -59,8 +59,8 @@ class PluginKeyCardSystemServer : PluginBase
     const static string LOCATION_DATA = DATA_DIR + "/cache.dat";
     const static string PERSISTANCE_DATA = DATA_DIR + "/persistance.dat";
 
-    const static float REFRESH_RATE = 5.0;     /* 5 second(s) default */
-    const static float AUTOCLOSE_TIME = 10.0;    /* 10 seconds(s)*/
+    const static float REFRESH_RATE = 10;     /* 5 second(s) default */
+    const static float AUTOCLOSE_TIME = 30.0;    /* 10 seconds(s). Should be always greater than REFRESH_RATE */ 
 
     ref KeyCardSystemConfig m_config;
     ref array<ref SecurityDoorPersistanceData> m_persistanceData;
@@ -261,18 +261,18 @@ class PluginKeyCardSystemServer : PluginBase
 
     protected void SavePersistance()
     {
-        Print("Saving Persistance...");
+        // Print("Saving Persistance...");
 
-        foreach( ref SecurityDoorPersistanceData data : m_persistanceData){
+        // foreach( ref SecurityDoorPersistanceData data : m_persistanceData){
 
-            foreach( int index, bool state: data.m_DoorState) {
+        //     foreach( int index, bool state: data.m_DoorState) {
 
-                Print( "index: " + index + " state: " + state + " timetillclose: " + data.m_DoorTimers[index]);
+        //         Print( "index: " + index + " state: " + state + " timetillclose: " + data.m_DoorTimers[index]);
 
-            }
+        //     }
             
 
-        }
+        // }
 
         FileSerializer fileHandle = new FileSerializer();
 

@@ -1,5 +1,9 @@
+class SecurityDoorPersistanceData {
+    
+}
 
 class SDM_Security_Door_Base : Building {
+    ref SecurityDoorPersistanceData m_persistanceData = new SecurityDoorPersistanceData();
 };
 
 class SDM_Security_Single_Door_Base : SDM_Security_Door_Base {};

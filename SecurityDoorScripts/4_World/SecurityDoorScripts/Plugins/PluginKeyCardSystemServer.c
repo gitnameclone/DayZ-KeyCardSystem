@@ -59,8 +59,12 @@ class PluginKeyCardSystemServer : PluginBase
     const static string LOCATION_DATA = DATA_DIR + "/cache.dat";
     const static string PERSISTANCE_DATA = DATA_DIR + "/persistance.dat";
 
+    const static float REFRESH_RATE = 5000;     /* 5 second(s) default */
+    const static float AUTOCLOSE_TIME = 10.0;    /* 10 seconds(s)*/
+
     ref KeyCardSystemConfig m_config;
     ref array<ref SecurityDoorPersistanceData> m_persistanceData;
+    ref array<SDM_Security_Door_Base> m_Doors;
 
     protected bool m_HasConfigChanged = false;
 
@@ -74,6 +78,7 @@ class PluginKeyCardSystemServer : PluginBase
 
         m_config = new KeyCardSystemConfig(VERSION);
         m_persistanceData = new array< ref SecurityDoorPersistanceData>;
+        m_Doors = new array<SDM_Security_Door_Base>;
 
         if (!FileExist( PROFILE ))
             MakeDirectory( PROFILE );
@@ -192,6 +197,7 @@ class PluginKeyCardSystemServer : PluginBase
 
 
                 m_persistanceData.Insert( persistanceData );
+                m_Doors.Insert( door );
             }
 
             CreatePersistanceFiles();
@@ -207,8 +213,7 @@ class PluginKeyCardSystemServer : PluginBase
         }
 
         /* TODO: Start timer for monitor */
-        GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater( SavePersistance, 3000,  true );
-
+        GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater( Monitor, GetRefreshRate(),  true );
     }
 
     protected void LoadOldPersistance() 
@@ -232,6 +237,8 @@ class PluginKeyCardSystemServer : PluginBase
             door.Update();
 			
 			door.SetPersistanceData( persistantitem );
+
+            m_Doors.Insert( door );
 			
 			
         }
@@ -260,8 +267,10 @@ class PluginKeyCardSystemServer : PluginBase
 
             foreach( int index, bool state: data.m_DoorState) {
 
-                Print( "index: " + index + " state: " + state);
+                Print( "index: " + index + " state: " + state + " timetillclose: " + data.m_DoorTimers[index]);
+
             }
+            
 
         }
 
@@ -269,5 +278,47 @@ class PluginKeyCardSystemServer : PluginBase
 
         if ( fileHandle.Open( PERSISTANCE_DATA, FileMode.WRITE) )
             fileHandle.Write( m_persistanceData ); 
+    }
+
+    protected void UpdateDoorTimers() {
+
+        float timeDelta = REFRESH_RATE;
+
+        foreach ( SDM_Security_Door_Base door : m_Doors) {
+
+            foreach( int doorIndex, bool state: door.GetPersistanceData().m_DoorState) {
+
+                if ( state == true) /* open */
+                {
+                    if (door.GetPersistanceData().m_DoorTimers.Contains( doorIndex)) {
+                        float remainingTime = door.TimeTillAutoClose( doorIndex );
+                        door.SetTimeTillAutoClose( doorIndex, remainingTime - timeDelta );
+
+                        
+                        if ( door.TimeTillAutoClose( doorIndex ) <= 0) {
+                            door.Close( doorIndex  );
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+    protected void Monitor() {
+
+        UpdateDoorTimers();
+
+
+        SavePersistance();
+    }
+
+
+    float GetRefreshRate() {
+        return REFRESH_RATE;
+    }
+
+    float GetAutoCloseTimeConstant() {
+        return AUTOCLOSE_TIME;
     }
 }

@@ -4,9 +4,11 @@ class SecurityDoorPersistanceData {
     vector dir;
 
     ref map<int, bool> m_DoorState;
+	ref map<int, float> m_DoorTimers;
 
     void SecurityDoorPersistanceData() {
         m_DoorState = new map<int, bool>;
+		m_DoorTimers = new map<int, float>;
     }
 
     string GetType() {
@@ -46,7 +48,11 @@ class SecurityDoorPersistanceData {
 class SDM_Security_Door_Base : Building {
     ref SecurityDoorPersistanceData m_persistanceData;
 
-    float m_TimeTillAutoClose;
+
+    void SDM_Security_Door_Base() 
+    {
+
+    }
 
     void SetPersistanceData( ref SecurityDoorPersistanceData data ) 
     {
@@ -75,20 +81,22 @@ class SDM_Security_Door_Base : Building {
     }
 
 
-    void SetTimeTillAutoClose( float time ) 
+    void SetTimeTillAutoClose( int index, float time ) 
     {
-        m_TimeTillAutoClose = time;
+        m_persistanceData.m_DoorTimers[index] = time;
     }
 
-    float TimeTillAutoClose() 
+    float TimeTillAutoClose(int index ) 
     {
-        return m_TimeTillAutoClose;
+        return m_persistanceData.m_DoorTimers[index];
     }
 
     void Open( int index ) 
     {
         this.OpenDoor( index );
         m_persistanceData.SetIsOpen( index, true);
+
+        SetTimeTillAutoClose( index, PluginKeyCardSystemServer.Cast( GetPlugin( PluginKeyCardSystemServer ) ).GetAutoCloseTimeConstant() );
     }
 
     void Close( int index )

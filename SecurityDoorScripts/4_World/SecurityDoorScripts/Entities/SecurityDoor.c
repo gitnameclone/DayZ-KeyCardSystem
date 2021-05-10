@@ -96,7 +96,7 @@ class SDM_Security_Door_Base : Building {
         this.OpenDoor( index );
         m_persistanceData.SetIsOpen( index, true);
 
-        SetTimeTillAutoClose( index, PluginKeyCardSystemServer.Cast( GetPlugin( PluginKeyCardSystemServer ) ).GetAutoCloseTimeConstant() );
+        SetTimeTillAutoClose( index, PluginKeyCardSystemServer.Cast( GetPlugin( PluginKeyCardSystemServer ) ).GetAutoCloseTimeConstant() * 1000 );
     }
 
     void Close( int index )

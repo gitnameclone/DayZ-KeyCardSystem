@@ -59,7 +59,7 @@ class PluginKeyCardSystemServer : PluginBase
     const static string LOCATION_DATA = DATA_DIR + "/cache.dat";
     const static string PERSISTANCE_DATA = DATA_DIR + "/persistance.dat";
 
-    const static float REFRESH_RATE = 5000;     /* 5 second(s) default */
+    const static float REFRESH_RATE = 5.0;     /* 5 second(s) default */
     const static float AUTOCLOSE_TIME = 10.0;    /* 10 seconds(s)*/
 
     ref KeyCardSystemConfig m_config;
@@ -213,7 +213,7 @@ class PluginKeyCardSystemServer : PluginBase
         }
 
         /* TODO: Start timer for monitor */
-        GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater( Monitor, GetRefreshRate(),  true );
+        GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater( Monitor, GetRefreshRate() * 1000,  true );
     }
 
     protected void LoadOldPersistance() 

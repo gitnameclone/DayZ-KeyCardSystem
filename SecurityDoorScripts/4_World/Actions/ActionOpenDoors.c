@@ -21,12 +21,9 @@ modded class ActionOpenDoors
         return false;
     }
 
-    protected bool CanAuthorize(Object target, ItemBase item) 
+    protected bool CanAuthorize(Object target, SDM_Keycard_Base card) 
     {
-        if ( !target || !item ) return false;
-
-        SDM_Keycard_Base card;
-        if ( !Class.CastTo( card, item )) return false;
+        if ( !target ) return false;
 
         string doorType = target.GetType();
 
@@ -41,18 +38,22 @@ modded class ActionOpenDoors
 
         m_IsSecurityDoor = IsSecurityDoor( target.GetObject());
 
-        // if( m_IsSecurityDoor )
-        //     if( !CanAuthorize( target.GetObject(), item ) )
-        //         return false;
-        
+        if( m_IsSecurityDoor ) 
+        {
+            SDM_Keycard_Base keyCard;
 
-        SDM_Keycard_Base keyCard;
+            if (item)
+                Class.CastTo( keyCard, item);
 
-        if (item)
-            Class.CastTo( keyCard, item);
+            if( CanAuthorize( target.GetObject(), keyCard ) ) 
+            {
+                m_actionTXT = "Swipe Card";
+                return super.ActionCondition( player, target, item );
+            }
+            else
+                return false;
 
-		if (keyCard && m_IsSecurityDoor) 
-            m_actionTXT = "Swipe Card";
+        }
 
 
         return super.ActionCondition( player, target, item );

@@ -21,12 +21,21 @@ modded class ActionOpenDoors
         return false;
     }
 
+    protected bool CanAuthorize(Object target, ItemBase card) 
+    {
+        SDM_Security_Door_Base door;
+        if ( Class.CastTo(door, target))
+            return door.CanAuthorize( card );
+
+        return false;
+    }
+
     override bool ActionCondition( PlayerBase player, ActionTarget target, ItemBase item )
 	{
         if (!target)
             return false;
 
-        m_IsSecurityDoor = IsSecurityDoor( target.GetObject());
+        m_IsSecurityDoor = IsSecurityDoor( target.GetObject()) && CanAuthorize( target.GetObject(), item );
 
         SDM_Keycard_Base keyCard;
 

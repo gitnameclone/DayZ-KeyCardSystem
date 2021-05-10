@@ -104,20 +104,92 @@ class SDM_Security_Door_Base : Building {
         this.CloseDoor( index );
         m_persistanceData.SetIsOpen( index, false);
     }
+
+
+
+
+    bool CanAuthorize( ItemBase card ) {
+        return false;
+    }
 };
 
 class SDM_Security_Single_Door_Base : SDM_Security_Door_Base {};
 
-class SDM_Security_Single_Door_Lvl_1 : SDM_Security_Single_Door_Base {};
-class SDM_Security_Single_Door_Lvl_2 : SDM_Security_Single_Door_Base {};
-class SDM_Security_Single_Door_Lvl_3 : SDM_Security_Single_Door_Base {};
-class SDM_Security_Single_Door_Lvl_4 : SDM_Security_Single_Door_Base {};
+class SDM_Security_Single_Door_Lvl_1 : SDM_Security_Single_Door_Base 
+{
+    override bool CanAuthorize( ItemBase card ) {
+        if ( card.IsInherited(SDM_Keycard_Lvl_1) )
+            return true;
+        
+        return false;
+    }
+};
+
+class SDM_Security_Single_Door_Lvl_2 : SDM_Security_Single_Door_Base 
+{
+    override bool CanAuthorize( ItemBase card ) {
+        if ( card.IsInherited(SDM_Keycard_Lvl_2) )
+            return true;
+        
+        return false;
+    }
+};
+class SDM_Security_Single_Door_Lvl_3 : SDM_Security_Single_Door_Base 
+{
+    override bool CanAuthorize( ItemBase card ) {
+        if ( card.IsInherited(SDM_Keycard_Lvl_3) )
+            return true;
+        
+        return false;
+    }
+};
+class SDM_Security_Single_Door_Lvl_4 : SDM_Security_Single_Door_Base {
+
+    override bool CanAuthorize( ItemBase card ) {
+        if ( card.IsInherited(SDM_Keycard_Lvl_4) )
+            return true;
+        
+        return false;
+    }
+};
 
 class SDM_Security_Double_Door_Base : SDM_Security_Door_Base {};
 
-class SDM_Security_Double_Door_Lvl_1 : SDM_Security_Double_Door_Base {};
-class SDM_Security_Double_Door_Lvl_2 : SDM_Security_Double_Door_Base {};
-class SDM_Security_Double_Door_Lvl_3 : SDM_Security_Double_Door_Base {};
-class SDM_Security_Double_Door_Lvl_4 : SDM_Security_Double_Door_Base {};
+class SDM_Security_Double_Door_Lvl_1 : SDM_Security_Double_Door_Base 
+{
+    override bool CanAuthorize( ItemBase card ) {
+        if ( card.IsInherited(SDM_Keycard_Lvl_1) )
+            return true;
+        
+        return false;
+    }
+};
+class SDM_Security_Double_Door_Lvl_2 : SDM_Security_Double_Door_Base 
+{
+    override bool CanAuthorize( ItemBase card ) {
+        if ( card.IsInherited(SDM_Keycard_Lvl_2) )
+            return true;
+        
+        return false;
+    }
+};
+class SDM_Security_Double_Door_Lvl_3 : SDM_Security_Double_Door_Base 
+{
+    override bool CanAuthorize( ItemBase card ) {
+        if ( card.IsInherited(SDM_Keycard_Lvl_3) )
+            return true;
+        
+        return false;
+    }
+};
+class SDM_Security_Double_Door_Lvl_4 : SDM_Security_Double_Door_Base 
+{
+    override bool CanAuthorize( ItemBase card ) {
+        if ( card.IsInherited(SDM_Keycard_Lvl_4) )
+            return true;
+        
+        return false;
+    }
+};
 
 

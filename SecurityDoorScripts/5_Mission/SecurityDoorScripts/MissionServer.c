@@ -1,5 +1,9 @@
 modded class MissionServer {
-    void MissionServer() {
-        Print(" SecurityDoorScripts..");
+    
+    override void OnMissionStart()
+	{
+        super.OnMissionStart();
+
+        Print("Spawning doors...");
     }
 }

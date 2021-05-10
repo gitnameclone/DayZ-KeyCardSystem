@@ -56,8 +56,6 @@ class PluginKeyCardSystemServer : PluginBase
     void PluginKeyCardSystemServer() 
     {
         Init();
-
-        CompareOldPersitance();
     }
 
     void Init() 
@@ -77,19 +75,23 @@ class PluginKeyCardSystemServer : PluginBase
         }
 
         JsonFileLoader<ref KeyCardSystemConfig>.JsonLoadFile( CONFIG, m_config);
+
+        if (!CompareOldPersitance())        /* Check for changes in config */
+            DeletePersistanceFiles();
     }
 
     /* 
     *   Compares current config with previous persitance data.
-    *   Resets data if there's any changes.
+    *   True - OK
+    *   False - corrupted/changed
     */
-    void CompareOldPersitance() {
+    protected bool CompareOldPersitance() {
 
         if ( !FileExist( DATA_DIR ) )
             MakeDirectory( DATA_DIR );
         
         if ( !FileExist( LOCATION_DATA ) || !FileExist( PERSISTANCE_DATA ))   
-            return;     /* data doesn't exist, return */
+            return false;     /* data doesn't exist, return */
 
 
         ref array< ref SecurityDoorLocationConfig > prev_locations = new array< ref SecurityDoorLocationConfig >;
@@ -98,9 +100,35 @@ class PluginKeyCardSystemServer : PluginBase
         if ( fileHandle.Open( LOCATION_DATA, FileMode.READ) )
             fileHandle.Read(prev_locations);
         else {
-            DeletePersistanceFiles(); /* Corrupted files probably, reset persistance data */
-            return;
+            return false; /* Corrupted files probably, reset persistance data */
         }
+
+        if ( m_config.locations.Count() != prev_locations.Count() )
+            return false;
+
+        for ( int i=0; i<m_config.locations.Count(); i++ ) {
+
+            ref SecurityDoorLocationConfig currentConfig = m_config.locations[i];
+            ref SecurityDoorLocationConfig persistanceConfig = prev_locations[i];
+
+            if( !persistanceConfig )
+                return false;
+
+            /* Check if classnames are equal */
+            if ( currentConfig.GetClassName() != persistanceConfig.GetClassName() )
+                return false;
+
+            /* Check for changes in position */
+            if ( currentConfig.GetPosition() != persistanceConfig.GetPosition() )
+                return false;
+
+            /* Check for changes in direction */
+            if ( currentConfig.GetDirection() != persistanceConfig.GetDirection() )
+                return false;
+            
+
+        }
+
 
         foreach( ref SecurityDoorLocationConfig p_config : prev_locations ) {
             
@@ -111,6 +139,8 @@ class PluginKeyCardSystemServer : PluginBase
             
             Print( string.Format("%1 %2 %3", config.GetClassName(), config.GetPosition(), config.GetDirection() ) );
         }
+
+        return true;
     }
 
     protected void DeletePersistanceFiles() {

@@ -20,6 +20,10 @@ class SecurityDoorLocationConfig
     {
         return location;
     }
+
+    vector GetDirection() {
+        return dir;
+    }
 }
 
 class KeyCardSystemConfig 
@@ -43,11 +47,16 @@ class PluginKeyCardSystemServer : PluginBase
     const static string PROFILE = "$profile:KeyCardSystem";
     const static string CONFIG = PROFILE + "/config.json";
 
+    const static string DATA_DIR = PROFILE + "/data";
+    const static string LOCATION_CACHE = DATA_DIR + "cache.data";
+
     ref KeyCardSystemConfig m_config;
 
     void PluginKeyCardSystemServer() 
     {
         Init();
+
+        UpdateCache();
     }
 
     void Init() 
@@ -64,6 +73,18 @@ class PluginKeyCardSystemServer : PluginBase
             m_config.InsertLocation( "SDM_Security_Double_Door_Lvl_4", "8337.31 6.364 2941.23", "0 0 0" );
 
             JsonFileLoader<ref KeyCardSystemConfig>.JsonSaveFile( CONFIG, m_config);
+        }
+    }
+
+    /* 
+    *   Compares current config with cache.
+    *   Resets cache if there's any changes.
+    */
+    void UpdateCache() {
+
+        foreach( ref SecurityDoorLocationConfig config : m_config.locations ) {
+            
+            Print( string.Format("%1 %2 %3", config.GetClassName(), config.GetPosition(), config.GetDirection() ) );
         }
     }
 }

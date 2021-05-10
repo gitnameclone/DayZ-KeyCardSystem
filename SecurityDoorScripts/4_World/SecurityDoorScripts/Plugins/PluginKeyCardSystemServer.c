@@ -50,7 +50,7 @@ class KeyCardSystemConfig
 
 class PluginKeyCardSystemServer : PluginBase 
 {
-    const static int VERSION = 3;
+    const static int VERSION = 4;
 
     const static string PROFILE = "$profile:KeyCardSystem";
     const static string CONFIG = PROFILE + "/config.json";
@@ -147,17 +147,6 @@ class PluginKeyCardSystemServer : PluginBase
 
         }
 
-
-        foreach( ref SecurityDoorLocationConfig p_config : prev_locations ) {
-            
-            Print( string.Format("%1 %2 %3", p_config.GetClassName(), p_config.GetPosition(), p_config.GetDirection() ) );
-        }
-
-        foreach( ref SecurityDoorLocationConfig config : m_config.locations ) {
-            
-            Print( string.Format("%1 %2 %3", config.GetClassName(), config.GetPosition(), config.GetDirection() ) );
-        }
-
         return false;
     }
 
@@ -178,7 +167,7 @@ class PluginKeyCardSystemServer : PluginBase
 
         if ( m_HasConfigChanged ) {
 
-            Print("cant Loading old persistance");
+            Print("KEYCARDSYSTEM: CREATING NEW PERSISTANCE DATA");
 
             /* config has changed, delete old persistance files and create new. */
             DeletePersistanceFiles();
@@ -198,7 +187,6 @@ class PluginKeyCardSystemServer : PluginBase
                 persistanceData.SetType( door.GetType() );
                 persistanceData.SetPosition( door.GetPosition() );
                 persistanceData.SetOrientation( door.GetOrientation() );
-                persistanceData.randomvar = i++;
 
                 door.SetPersistanceData( persistanceData );
 
@@ -210,7 +198,7 @@ class PluginKeyCardSystemServer : PluginBase
 
         } else {
 
-            Print("Loading old persistance");
+            Print("KEYCARDSYSTEM: LOADING OLD PERSISTANCE DATA");
 
             /* Load old persistance data */
             LoadOldPersistance();
@@ -231,9 +219,6 @@ class PluginKeyCardSystemServer : PluginBase
 
         foreach( ref SecurityDoorPersistanceData persistantitem : m_persistanceData ) {
 			
-			Print("type : " + persistantitem.GetType());
-			Print("pos : " + persistantitem.GetPosition());
-            Print("randomvar : " + persistantitem.randomvar);
 			
             auto obj = GetGame().CreateObjectEx( persistantitem.GetType(), persistantitem.GetPosition(), ECE_SETUP | ECE_UPDATEPATHGRAPH | ECE_CREATEPHYSICS);
             

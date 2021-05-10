@@ -74,6 +74,8 @@ class PluginKeyCardSystemServer : PluginBase
 
             JsonFileLoader<ref KeyCardSystemConfig>.JsonSaveFile( CONFIG, m_config);
         }
+
+        JsonFileLoader<ref KeyCardSystemConfig>.JsonLoadFile( CONFIG, m_config);
     }
 
     /* 

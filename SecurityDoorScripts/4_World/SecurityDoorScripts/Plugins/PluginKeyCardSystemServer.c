@@ -76,6 +76,8 @@ class PluginKeyCardSystemServer : PluginBase
     void Init() 
     {
 
+        Print("LOADING: PluginKeyCardSystemServer");
+
         m_config = new KeyCardSystemConfig(VERSION);
         m_persistanceData = new array< ref SecurityDoorPersistanceData>;
         m_Doors = new array<SDM_Security_Door_Base>;

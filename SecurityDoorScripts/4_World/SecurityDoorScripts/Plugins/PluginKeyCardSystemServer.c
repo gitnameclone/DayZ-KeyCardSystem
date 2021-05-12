@@ -159,10 +159,9 @@ class PluginKeyCardSystemServer : PluginBase
             if ( currentConfig.GetDirection() != persistanceConfig.GetDirection() )
                 return true;
 
-            if ( current.GetAutoCloseTime() != persistanceConfig.GetAutoCloseTime() )
+            if ( currentConfig.GetAutoCloseTime() != persistanceConfig.GetAutoCloseTime() )
                 return true;
             
-
         }
 
         return false;

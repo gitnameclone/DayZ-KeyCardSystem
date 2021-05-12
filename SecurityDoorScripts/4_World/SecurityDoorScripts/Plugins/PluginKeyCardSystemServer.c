@@ -307,10 +307,10 @@ class PluginKeyCardSystemServer : PluginBase
                         float remainingTime = door.TimeTillAutoClose( doorIndex );
                         door.SetTimeTillAutoClose( doorIndex, remainingTime - timeDelta );
 
+                        Print(" doorIndex: " + doorIndex + " remainingTime: " + remainingTime);
                         
-                        if ( door.TimeTillAutoClose( doorIndex ) <= 0) {
+                        if ( door.TimeTillAutoClose( doorIndex ) <= 0)
                             door.Close( doorIndex  );
-                        }
                     }
 
                 }

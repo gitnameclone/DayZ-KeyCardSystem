@@ -3,12 +3,14 @@ class SecurityDoorLocationConfig
     string className;
     vector location;
     vector dir;
+    float autoClose;
 
-    void SecurityDoorLocationConfig( string ClassName, vector Location, vector Direction) 
+    void SecurityDoorLocationConfig( string ClassName, vector Location, vector Direction, float AutoCloseTime) 
     {
         className = ClassName;
         location = Location;
         dir = Direction;
+        autoClose = AutoCloseTime;
     }
 
     string GetClassName() 
@@ -21,8 +23,14 @@ class SecurityDoorLocationConfig
         return location;
     }
 
-    vector GetDirection() {
+    vector GetDirection() 
+    {
         return dir;
+    }
+
+    float GetAutoCloseTime() 
+    {
+        return autoClose;
     }
 }
 
@@ -37,9 +45,9 @@ class KeyCardSystemConfig
         locations = new array< ref SecurityDoorLocationConfig >;
     }
 
-    void InsertLocation( string className, vector pos, vector dir)
+    void InsertLocation( string className, vector pos, vector dir, float autoclose)
     {
-        locations.Insert( new SecurityDoorLocationConfig( className, pos, dir ));
+        locations.Insert( new SecurityDoorLocationConfig( className, pos, dir, autoclose ));
     }
 
     void SetVersion( int Version ) {
@@ -50,7 +58,7 @@ class KeyCardSystemConfig
 
 class PluginKeyCardSystemServer : PluginBase 
 {
-    const static int VERSION = 7;
+    const static int VERSION = 8;
 
     const static string PROFILE = "$profile:KeyCardSystem";
     const static string CONFIG = PROFILE + "/config.json";
@@ -59,8 +67,8 @@ class PluginKeyCardSystemServer : PluginBase
     const static string LOCATION_DATA = DATA_DIR + "/cache.dat";
     const static string PERSISTANCE_DATA = DATA_DIR + "/persistance.dat";
 
-    const static float REFRESH_RATE = 10;     /* 5 second(s) default */
-    const static float AUTOCLOSE_TIME = 30.0;    /* 10 seconds(s). Should be always greater than REFRESH_RATE */ 
+    const static float REFRESH_RATE = 30.0;     /* 30 second(s) default */
+    const static float AUTOCLOSE_TIME = 300.0;    /* 300 seconds(s). Should be always greater than REFRESH_RATE */ 
 
     ref KeyCardSystemConfig m_config;
     ref array<ref SecurityDoorPersistanceData> m_persistanceData;
@@ -87,7 +95,7 @@ class PluginKeyCardSystemServer : PluginBase
 
         if ( !FileExist( CONFIG )) 
         {
-            m_config.InsertLocation( "SDM_Security_Double_Door_Lvl_4", "8336.31 6.364 2941.23", "0 0 0" );
+            m_config.InsertLocation( "SDM_Security_Double_Door_Lvl_4", "8336.31 6.364 2941.23", "0 0 0", 300.0 /* 5 mins */ );
 
             JsonFileLoader<ref KeyCardSystemConfig>.JsonSaveFile( CONFIG, m_config);
         }
@@ -194,6 +202,7 @@ class PluginKeyCardSystemServer : PluginBase
                 persistanceData.SetType( door.GetType() );
                 persistanceData.SetPosition( door.GetPosition() );
                 persistanceData.SetOrientation( door.GetOrientation() );
+                persistanceData.SetAutoCloseTime( config.GetAutoCloseTime() );
 
                 door.SetPersistanceData( persistanceData );
 

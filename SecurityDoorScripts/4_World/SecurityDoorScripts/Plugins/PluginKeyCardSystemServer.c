@@ -158,6 +158,9 @@ class PluginKeyCardSystemServer : PluginBase
             /* Check for changes in direction */
             if ( currentConfig.GetDirection() != persistanceConfig.GetDirection() )
                 return true;
+
+            if ( current.GetAutoCloseTime() != persistanceConfig.GetAutoCloseTime() )
+                return true;
             
 
         }

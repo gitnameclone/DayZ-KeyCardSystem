@@ -46,6 +46,9 @@ modded class ActionOpenDoors
         {
             ItemBase inHandItem = GetItemInHands( player );
 
+            if( !inHandItem)
+                return false;
+
             SDM_Keycard_Base keyCard;
 
             if (inHandItem)

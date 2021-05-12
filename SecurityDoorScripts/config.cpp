@@ -4,7 +4,7 @@ class CfgPatches
     {
         requiredAddons[]=
         {
-            "Security_Doors_Mod"
+            "SecurityDoorScriptsClient"
         };
     };
 };

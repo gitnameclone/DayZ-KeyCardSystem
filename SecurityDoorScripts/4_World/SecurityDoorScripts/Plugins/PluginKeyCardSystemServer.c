@@ -67,8 +67,7 @@ class PluginKeyCardSystemServer : PluginBase
     const static string LOCATION_DATA = DATA_DIR + "/cache.dat";
     const static string PERSISTANCE_DATA = DATA_DIR + "/persistance.dat";
 
-    const static float REFRESH_RATE = 30.0;     /* 30 second(s) default */
-    const static float AUTOCLOSE_TIME = 300.0;    /* 300 seconds(s). Should be always greater than REFRESH_RATE */ 
+    const static float REFRESH_RATE = 10.0;     /* 10 second(s) default */
 
     ref KeyCardSystemConfig m_config;
     ref array<ref SecurityDoorPersistanceData> m_persistanceData;
@@ -329,9 +328,5 @@ class PluginKeyCardSystemServer : PluginBase
 
     float GetRefreshRate() {
         return REFRESH_RATE;
-    }
-
-    float GetAutoCloseTimeConstant() {
-        return AUTOCLOSE_TIME;
     }
 }

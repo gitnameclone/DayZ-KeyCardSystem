@@ -1,6 +1,6 @@
 class CfgPatches
 {
-    class SecurityDoorScriptClient
+    class SecurityDoorScriptsClient
     {
         requiredAddons[]=
         {
@@ -11,9 +11,9 @@ class CfgPatches
 
 class CfgMods
 {
-    class SecurityDoorScriptClient
+    class SecurityDoorScriptsClient
     {
-        name = "SecurityDoorScriptClient";
+        name = "SecurityDoorScriptsClient";
         type = "mod";
         dependencies[]=
 		{
@@ -24,7 +24,7 @@ class CfgMods
             class worldScriptModule
             {
                 value = "";
-                files[] = {"SecurityDoorScriptClient\4_World"};
+                files[] = {"SecurityDoorScriptsClient\4_World"};
             };
         };
     };

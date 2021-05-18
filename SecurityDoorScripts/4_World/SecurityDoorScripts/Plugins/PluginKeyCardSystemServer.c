@@ -4,13 +4,17 @@ class SecurityDoorLocationConfig
     vector location;
     vector dir;
     float autoClose;
+    vector crateLocation;
+    vector crateDir;
 
-    void SecurityDoorLocationConfig( string ClassName, vector Location, vector Direction, float AutoCloseTime) 
+    void SecurityDoorLocationConfig( string ClassName, vector Location, vector Direction, float AutoCloseTime, vector CrateLocation, vector CrateDir) 
     {
         className = ClassName;
         location = Location;
         dir = Direction;
         autoClose = AutoCloseTime;
+        crateLocation = CrateLocation;
+        crateDir = CrateDir;
     }
 
     string GetClassName() 
@@ -32,6 +36,16 @@ class SecurityDoorLocationConfig
     {
         return autoClose;
     }
+
+    vector GetCratePosition()
+    {
+        return crateLocation;
+    }
+
+    vector GetCrateDirection()
+    {
+        return crateDir;
+    }
 }
 
 class KeyCardSystemConfig 
@@ -45,9 +59,9 @@ class KeyCardSystemConfig
         locations = new array< ref SecurityDoorLocationConfig >;
     }
 
-    void InsertLocation( string className, vector pos, vector dir, float autoclose)
+    void InsertLocation( string className, vector pos, vector dir, float autoclose, vector cratePos, vector crateDir)
     {
-        locations.Insert( new SecurityDoorLocationConfig( className, pos, dir, autoclose ));
+        locations.Insert( new SecurityDoorLocationConfig( className, pos, dir, autoclose, cratePos, crateDir ));
     }
 
     void SetVersion( int Version ) {
@@ -58,7 +72,7 @@ class KeyCardSystemConfig
 
 class PluginKeyCardSystemServer : PluginBase 
 {
-    const static int VERSION = 8;
+    const static int VERSION = 9;
 
     const static string PROFILE = "$profile:KeyCardSystem";
     const static string CONFIG = PROFILE + "/config.json";
@@ -94,7 +108,7 @@ class PluginKeyCardSystemServer : PluginBase
 
         if ( !FileExist( CONFIG )) 
         {
-            m_config.InsertLocation( "SDM_Security_Double_Door_Lvl_4", "8336.31 6.364 2941.23", "0 0 0", 300.0 /* 5 mins */ );
+            m_config.InsertLocation( "SDM_Security_Double_Door_Lvl_4", "8336.31 6.364 2941.23", "0 0 0", 300.0 /* 5 mins */, "8339.31 6.364 2941.23", "0 0 0" );
 
             JsonFileLoader<ref KeyCardSystemConfig>.JsonSaveFile( CONFIG, m_config);
         }
@@ -160,6 +174,12 @@ class PluginKeyCardSystemServer : PluginBase
 
             if ( currentConfig.GetAutoCloseTime() != persistanceConfig.GetAutoCloseTime() )
                 return true;
+
+            if ( currentConfig.GetCrateDirection() != persistanceConfig.GetCrateDirection() )
+                return true;
+            
+            if ( currentConfig.GetCratePosition() != persistanceConfig.GetCratePosition() )
+                return true;
             
         }
 
@@ -204,6 +224,8 @@ class PluginKeyCardSystemServer : PluginBase
                 persistanceData.SetPosition( door.GetPosition() );
                 persistanceData.SetOrientation( door.GetOrientation() );
                 persistanceData.SetAutoCloseTime( config.GetAutoCloseTime() );
+                persistanceData.SetCrateOrientation( config.GetCrateDirection() );
+                persistanceData.SetCratePosition( config.GetCratePosition() );
 
                 door.SetPersistanceData( persistanceData );
 
@@ -328,5 +350,17 @@ class PluginKeyCardSystemServer : PluginBase
 
     float GetRefreshRate() {
         return REFRESH_RATE;
+    }
+
+    Object SpawnRewardCrate( string className, vector position, vector orientation ) 
+    {
+        Object crate = GetGame().CreateObject( className, position);
+
+        if (!crate)
+            return NULL;
+
+        crate.SetOrientation( orientation );
+
+        return crate;
     }
 }

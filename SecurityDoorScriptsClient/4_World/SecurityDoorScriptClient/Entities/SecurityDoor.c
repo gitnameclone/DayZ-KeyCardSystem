@@ -175,6 +175,8 @@ class SDM_Security_Door_Base : Building {
     {
         this.CloseDoor( index );
         m_persistanceData.SetIsOpen( index, false);
+
+        DeleteRewards();
     }
 };
 

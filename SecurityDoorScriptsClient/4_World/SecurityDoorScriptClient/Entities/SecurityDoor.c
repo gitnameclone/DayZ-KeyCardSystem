@@ -136,8 +136,6 @@ class SDM_Security_Door_Base : Building {
     {
         Print("KEYCARDSYSTEM: SPAWNING REWARD CRATE..");
 
-        Print( GetCrateClassName() );
-
         /* Spawn crate */
         if( GetCrateClassName() == "")
             return;
@@ -145,11 +143,21 @@ class SDM_Security_Door_Base : Building {
         Object crateObject = m_Plugin.SpawnRewardCrate( GetCrateClassName(), m_persistanceData.GetCratePosition(), m_persistanceData.GetCrateOrientation() );
         EntityAI crate;
 
-        Print("" + crate.GetType());
-
         if ( Class.CastTo( crate, crateObject) )
             AddLoot(crate);
 
+    }
+
+    protected void DeleteRewards()
+    {
+        vector cratePos = m_persistanceData.GetCratePosition();
+
+        bool success = m_Plugin.DeleteRewardCrate( GetCrateClassName(), m_persistanceData.GetCratePosition());
+
+        if (success)
+            Print("KEYCARDSYSTEM: SUCCEFULLY DELETED REWARD CRATE");
+        else
+            Print("KEYCARDSYSTEM: COULDN'T DELETE REWARD CRATE");
     }
 
     void Open( int index ) 
@@ -175,19 +183,7 @@ class SDM_Security_Single_Door_Base : SDM_Security_Door_Base {};
 class SDM_Security_Single_Door_Lvl_1 : SDM_Security_Single_Door_Base {};
 class SDM_Security_Single_Door_Lvl_2 : SDM_Security_Single_Door_Base {};
 class SDM_Security_Single_Door_Lvl_3 : SDM_Security_Single_Door_Base {};
-class SDM_Security_Single_Door_Lvl_4 : SDM_Security_Single_Door_Base {
-    override void AddLoot( EntityAI crate )
-    {
-        super.AddLoot( crate );
-
-        crate.GetInventory().CreateInInventory("M4A1");
-    }
-
-    override string GetCrateClassName()
-    {
-        return "TortillaBag";
-    }
-};
+class SDM_Security_Single_Door_Lvl_4 : SDM_Security_Single_Door_Base {};
 
 class SDM_Security_Double_Door_Base : SDM_Security_Door_Base {};
 

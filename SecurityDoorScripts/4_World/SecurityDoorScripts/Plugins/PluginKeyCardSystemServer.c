@@ -352,6 +352,10 @@ class PluginKeyCardSystemServer : PluginBase
         return REFRESH_RATE;
     }
 
+
+    /*  ==============================================
+    *   Rewards
+    */
     Object SpawnRewardCrate( string className, vector position, vector orientation ) 
     {
         Object crate = GetGame().CreateObject( className, position);
@@ -359,8 +363,27 @@ class PluginKeyCardSystemServer : PluginBase
         if (!crate)
             return NULL;
 
-        crate.SetOrientation( orientation );
+        if( orientation )
+            crate.SetOrientation( orientation );
 
         return crate;
+    }
+
+    bool DeleteRewardCrate( string className, vector position )
+    {
+        const float radius = 5;
+
+        ref array<Object> objectsAtPosition = new array<Object>;
+
+        GetGame().GetObjectsAtPosition( position, radius, objectsAtPosition, NULL );
+
+        foreach( Object item : objectsAtPosition )
+            if ( item.GetType() == className)
+            {
+                GetGame().ObjectDelete( item );
+                return true;
+            }
+
+        return false;
     }
 }

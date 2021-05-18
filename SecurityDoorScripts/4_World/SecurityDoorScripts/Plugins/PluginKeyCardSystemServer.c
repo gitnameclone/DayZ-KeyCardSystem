@@ -373,6 +373,8 @@ class PluginKeyCardSystemServer : PluginBase
     {
         const float radius = 5;
 
+        bool flag = false;
+
         ref array<Object> objectsAtPosition = new array<Object>;
 
         GetGame().GetObjectsAtPosition( position, radius, objectsAtPosition, NULL );
@@ -381,9 +383,9 @@ class PluginKeyCardSystemServer : PluginBase
             if ( item.GetType() == className)
             {
                 GetGame().ObjectDelete( item );
-                return true;
+                flag = true;
             }
 
-        return false;
+        return flag;
     }
 }

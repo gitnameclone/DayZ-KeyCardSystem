@@ -201,5 +201,5 @@ class SDM_Security_Double_Door_Lvl_4 : SDM_Security_Double_Door_Base {
     }
 };
 
-#include "$CurrentDir:\\mpmissions\\KeyCardConfigs\\config.c"
+#include "$profile:\\KeyCardConfigs\\config.c"
 

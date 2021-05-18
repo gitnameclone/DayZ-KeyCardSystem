@@ -174,8 +174,13 @@ class SDM_Security_Single_Door_Lvl_4 : SDM_Security_Single_Door_Base {
     override void AddLoot( EntityAI crate )
     {
         super.AddLoot( crate );
-        
+
         crate.GetInventory().CreateInInventory("M4A1");
+    }
+
+    override string GetCrateClassName()
+    {
+        return "TortillaBag";
     }
 };
 

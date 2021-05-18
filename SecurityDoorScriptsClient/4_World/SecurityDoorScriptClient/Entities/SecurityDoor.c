@@ -143,8 +143,11 @@ class SDM_Security_Door_Base : Building {
         Object crateObject = m_Plugin.SpawnRewardCrate( GetCrateClassName(), m_persistanceData.GetCratePosition(), m_persistanceData.GetCrateOrientation() );
         EntityAI crate;
 
-        if ( Class.CastTo( crate, crateObject) )
+        Print("" + crate.GetType());
+
+        if ( Class.CastTo( crate, crateObject) ) {
             AddLoot(crate);
+        }
     }
 
     void Open( int index ) 

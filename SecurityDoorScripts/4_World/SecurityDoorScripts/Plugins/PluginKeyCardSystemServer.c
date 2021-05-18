@@ -50,16 +50,22 @@ class SecurityDoorLocationConfig
 
 class KeyCardSystemConfig 
 {
+    int version;
     ref array< ref SecurityDoorLocationConfig > locations;
 
-    void KeyCardSystemConfig( ) 
+    void KeyCardSystemConfig( int Version ) 
     {
+        version = Version;
         locations = new array< ref SecurityDoorLocationConfig >;
     }
 
     void InsertLocation( string className, vector pos, vector dir, float autoclose, vector cratePos, vector crateDir)
     {
         locations.Insert( new SecurityDoorLocationConfig( className, pos, dir, autoclose, cratePos, crateDir ));
+    }
+
+    void SetVersion( int Version ) {
+        version = Version;
     }
 
 }
@@ -69,7 +75,6 @@ class PluginKeyCardSystemServer : PluginBase
     const static int VERSION = 9;
 
     const static string PROFILE = "$profile:KeyCardSystem";
-    const static string VERSION_FILE = PROFILE + "/version.json";
     const static string CONFIG = PROFILE + "/config.json";
 
     const static string DATA_DIR = PROFILE + "/data";
@@ -94,35 +99,10 @@ class PluginKeyCardSystemServer : PluginBase
 
         Print("LOADING: PluginKeyCardSystemServer");
 
-        m_config = new KeyCardSystemConfig();
+        m_config = new KeyCardSystemConfig(VERSION);
         m_persistanceData = new array< ref SecurityDoorPersistanceData>;
         m_Doors = new array<SDM_Security_Door_Base>;
 
-        ref map<string, int> versionMap = new ref map<string, int>;
-
-        /* compare versions */
-        if (FileExist( VERSION_FILE ))
-        {
-            JsonFileLoader<ref map<string, int>>.JsonLoadFile(VERSION_FILE, versionMap);
-
-            if ( versionMap["version"] != VERSION) {
-                DeleteProfile();
-
-                //update version
-                versionMap["version"] = VERSION;
-                JsonFileLoader<ref map<string, int>>.JsonSaveFile(VERSION_FILE, versionMap);
-            }      
-        }
-        else
-        {
-            if (!FileExist( PROFILE ))
-                MakeDirectory( PROFILE );
-
-            versionMap["version"] = VERSION;
-            JsonFileLoader<ref map<string, int>>.JsonSaveFile(VERSION_FILE, versionMap);
-            DeleteProfile();
-        }
-            
         if (!FileExist( PROFILE ))
             MakeDirectory( PROFILE );
 
@@ -135,19 +115,15 @@ class PluginKeyCardSystemServer : PluginBase
 
         JsonFileLoader<ref KeyCardSystemConfig>.JsonLoadFile( CONFIG, m_config);
 
+        if( m_config.version != VERSION) 
+        {
+            DeletePersistanceFiles();
+            m_config.SetVersion( VERSION );
+            JsonFileLoader<ref KeyCardSystemConfig>.JsonSaveFile( CONFIG, m_config);
+        }
+
+
         m_HasConfigChanged = HasConfigChanged();
-    }
-
-    protected void DeleteProfile()
-    {
-        DeleteFile(PERSISTANCE_DATA);
-        DeleteFile(LOCATION_DATA);
-        DeleteFile(DATA_DIR);
-
-
-        DeleteFile(CONFIG);
-        DeleteFile(VERSION_FILE);
-        DeleteFile(PROFILE);
     }
 
     /* 

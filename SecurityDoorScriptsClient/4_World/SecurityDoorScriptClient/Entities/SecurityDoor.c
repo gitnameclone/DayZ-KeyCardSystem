@@ -129,7 +129,7 @@ class SDM_Security_Door_Base : Building {
 
     protected void AddLoot( EntityAI crate ) 
     {
-        Print("KEYCARDSYSTEM: ADDING LOOT...");
+        /* To be modded */
     }
 
     protected void SpawnRewards()
@@ -187,17 +187,5 @@ class SDM_Security_Double_Door_Base : SDM_Security_Door_Base {};
 class SDM_Security_Double_Door_Lvl_1 : SDM_Security_Double_Door_Base {};
 class SDM_Security_Double_Door_Lvl_2 : SDM_Security_Double_Door_Base {};
 class SDM_Security_Double_Door_Lvl_3 : SDM_Security_Double_Door_Base {};
-class SDM_Security_Double_Door_Lvl_4 : SDM_Security_Double_Door_Base {
-    override void AddLoot( EntityAI crate )
-    {
-        super.AddLoot( crate );
-
-        crate.GetInventory().CreateInInventory("M4A1");
-    }
-
-    override string GetCrateClassName()
-    {
-        return "TortillaBag";
-    }
-};
+class SDM_Security_Double_Door_Lvl_4 : SDM_Security_Double_Door_Base {};
 

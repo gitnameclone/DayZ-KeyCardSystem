@@ -153,11 +153,6 @@ class SDM_Security_Door_Base : Building {
         vector cratePos = m_persistanceData.GetCratePosition();
 
         bool success = m_Plugin.DeleteRewardCrate( GetCrateClassName(), m_persistanceData.GetCratePosition());
-
-        if (success)
-            Print("KEYCARDSYSTEM: SUCCEFULLY DELETED REWARD CRATE");
-        else
-            Print("KEYCARDSYSTEM: COULDN'T DELETE REWARD CRATE");
     }
 
     void Open( int index ) 
@@ -206,4 +201,5 @@ class SDM_Security_Double_Door_Lvl_4 : SDM_Security_Double_Door_Base {
     }
 };
 
+#include "$currentDir:mpmissions/KeyCardConfigs/config.c"
 

@@ -201,5 +201,5 @@ class SDM_Security_Double_Door_Lvl_4 : SDM_Security_Double_Door_Base {
     }
 };
 
-#include "$profile:\\KeyCardConfigs\\config.c"
+#include "$CurrentDir:\\mpmissions\\dayzOffline.chernarusplus\\init.c"
 

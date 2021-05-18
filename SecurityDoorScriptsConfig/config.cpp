@@ -1,6 +1,6 @@
 class CfgPatches
 {
-    class SecurityDoorScripts
+    class SecurityDoorScriptsConfig
     {
         requiredAddons[]=
         {
@@ -17,8 +17,7 @@ class CfgMods
         type = "mod";
         dependencies[]=
 		{
-            "World",
-			"Mission"
+            "World"
 		};
         class defs
         {

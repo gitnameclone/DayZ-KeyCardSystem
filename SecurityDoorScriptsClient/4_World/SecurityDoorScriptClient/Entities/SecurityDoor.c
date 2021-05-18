@@ -136,6 +136,8 @@ class SDM_Security_Door_Base : Building {
     {
         Print("KEYCARDSYSTEM: SPAWNING REWARD CRATE..");
 
+        Print( GetCrateClassName() );
+
         /* Spawn crate */
         if( GetCrateClassName() == "")
             return;
@@ -145,9 +147,9 @@ class SDM_Security_Door_Base : Building {
 
         Print("" + crate.GetType());
 
-        if ( Class.CastTo( crate, crateObject) ) {
+        if ( Class.CastTo( crate, crateObject) )
             AddLoot(crate);
-        }
+
     }
 
     void Open( int index ) 
@@ -192,6 +194,18 @@ class SDM_Security_Double_Door_Base : SDM_Security_Door_Base {};
 class SDM_Security_Double_Door_Lvl_1 : SDM_Security_Double_Door_Base {};
 class SDM_Security_Double_Door_Lvl_2 : SDM_Security_Double_Door_Base {};
 class SDM_Security_Double_Door_Lvl_3 : SDM_Security_Double_Door_Base {};
-class SDM_Security_Double_Door_Lvl_4 : SDM_Security_Double_Door_Base {};
+class SDM_Security_Double_Door_Lvl_4 : SDM_Security_Double_Door_Base {
+    override void AddLoot( EntityAI crate )
+    {
+        super.AddLoot( crate );
+
+        crate.GetInventory().CreateInInventory("M4A1");
+    }
+
+    override string GetCrateClassName()
+    {
+        return "TortillaBag";
+    }
+};
 
 

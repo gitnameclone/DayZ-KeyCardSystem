@@ -77,7 +77,7 @@ modded class SDM_Security_Door_Base {
         bool success = m_Plugin.DeleteRewardCrate( GetCrateClassName(), m_persistanceData.GetCratePosition());
     }
 
-    void Open( int index ) 
+    override void Open( int index ) 
     {
         this.OpenDoor( index );
         m_persistanceData.SetIsOpen( index, true);
@@ -88,7 +88,7 @@ modded class SDM_Security_Door_Base {
         SpawnRewards();
     }
 
-    void Close( int index )
+    override void Close( int index )
     {
         this.CloseDoor( index );
         m_persistanceData.SetIsOpen( index, false);

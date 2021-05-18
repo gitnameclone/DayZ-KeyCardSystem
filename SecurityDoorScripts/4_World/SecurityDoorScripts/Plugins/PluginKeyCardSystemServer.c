@@ -98,11 +98,15 @@ class PluginKeyCardSystemServer : PluginBase
         m_persistanceData = new array< ref SecurityDoorPersistanceData>;
         m_Doors = new array<SDM_Security_Door_Base>;
 
+
+        if (!FileExist( PROFILE ))
+            MakeDirectory( PROFILE );
+
+        ref map<string, int> versionMap = new ref map<string, int>;
+
         /* compare versions */
         if (FileExist( VERSION_FILE ))
         {
-            ref map<string, int> versionMap = new ref map<string, int>;
-
             JsonFileLoader<ref map<string, int>>.JsonLoadFile(VERSION_FILE, versionMap);
 
             if ( versionMap["version"] != VERSION) {
@@ -114,11 +118,12 @@ class PluginKeyCardSystemServer : PluginBase
             }      
         }
         else
+        {
+            versionMap["version"] = VERSION;
+            JsonFileLoader<ref map<string, int>>.JsonSaveFile(VERSION_FILE, versionMap);
             DeleteProfile();
-
-
-        if (!FileExist( PROFILE ))
-            MakeDirectory( PROFILE );
+        }
+            
 
         if ( !FileExist( CONFIG )) 
         {

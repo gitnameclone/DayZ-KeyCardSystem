@@ -92,7 +92,10 @@ modded class SDM_Security_Door_Base {
     {
         float delay = m_persistanceData.GetCloseDelay();
 
+        Print("delay :" + delay)
+
         Print("Closing...");
+        //this.PlaySoundSet("SDM_Security_Alarm_Sound_Warning");
         GetGame().GetCallQueue( CALL_CATEGORY_SYSTEM ).CallLater( Close, delay, false, index );
     }
 

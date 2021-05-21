@@ -8,11 +8,11 @@ class SecurityDoorLocationConfig
     vector crateDir;
     float closeDelay;
 
-    void SecurityDoorLocationConfig( string class_name, vector loc, vector dir, float autoclose_time, vector crate_location, vector crate_dir, float close_delay) 
+    void SecurityDoorLocationConfig( string class_name, vector loc, vector direction, float autoclose_time, vector crate_location, vector crate_dir, float close_delay) 
     {
         className = class_name;
         location = loc;
-        dir = dir;
+        dir = direction;
         autoClose = autoclose_time;
         crateLocation = crate_location;
         crateDir = crate_dir;

@@ -97,7 +97,8 @@ modded class SDM_Security_Door_Base {
 
         Print("Closing...");
 
-        this.PlaySoundSet( m_ClosingAlarm, "SDM_Security_Alarm_Sound_Warning", 1.0, 1.0 );
+        m_ClosingAlarm = SEffectManager.PlaySound( "SDM_Security_Alarm_Sound_Warning", GetPosition() );
+		m_ClosingAlarm.SetSoundAutodestroy( true );
         
         GetGame().GetCallQueue( CALL_CATEGORY_SYSTEM ).CallLater( Close, delay * 1000, false, index );
     }

@@ -108,7 +108,7 @@ class PluginKeyCardSystemServer : PluginBase
 
         if ( !FileExist( CONFIG )) 
         {
-            m_config.InsertLocation( "SDM_Security_Double_Door_Lvl_4", "8336.31 6.364 2941.23", "0 0 0", 300.0 /* 5 mins */, "8339.31 6.364 2941.23", "0 0 0" );
+            m_config.InsertLocation( "SDM_Security_Double_Door_Black", "8336.31 6.364 2941.23", "0 0 0", 300.0 /* 5 mins */, "8339.31 6.364 2941.23", "0 0 0" );
 
             JsonFileLoader<ref KeyCardSystemConfig>.JsonSaveFile( CONFIG, m_config);
         }

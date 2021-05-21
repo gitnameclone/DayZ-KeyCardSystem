@@ -3,6 +3,7 @@ modded class SDM_Security_Door_Base {
     ref PluginKeyCardSystemServer m_Plugin;
 
     protected EffectSound m_ClosingAlarm;
+    protected bool m_IsClosing = false;
 
     void SDM_Security_Door_Base() 
     {
@@ -93,14 +94,12 @@ modded class SDM_Security_Door_Base {
     {
         float delay = m_persistanceData.GetCloseDelay();
 
-        Print("delay :" + delay);
-
         Print("Closing...");
 
-        m_ClosingAlarm = SEffectManager.PlaySound( "SDM_Security_Alarm_Sound_Warning", GetPosition() );
-		m_ClosingAlarm.SetSoundAutodestroy( true );
+        PlaySound("SDM_Security_Alarm_Sound_Warning", 200, false);
         
         GetGame().GetCallQueue( CALL_CATEGORY_SYSTEM ).CallLater( Close, delay * 1000, false, index );
+        m_IsClosing = true;
     }
 
     override void Close( int index )
@@ -114,5 +113,12 @@ modded class SDM_Security_Door_Base {
 
         if( m_ClosingAlarm )
             m_ClosingAlarm.SoundStop();
+
+        m_IsClosing = false;
+    }
+
+    bool IsClosing()
+    {
+        return m_IsClosing;
     }
 };

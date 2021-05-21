@@ -342,7 +342,7 @@ class PluginKeyCardSystemServer : PluginBase
                         //Print(" doorIndex: " + doorIndex + " remainingTime: " + remainingTime);
                         
                         if ( door.TimeTillAutoClose( doorIndex ) <= 0)
-                            door.Close( doorIndex  );
+                            door.InitiateClose( doorIndex  );
                     }
 
                 }

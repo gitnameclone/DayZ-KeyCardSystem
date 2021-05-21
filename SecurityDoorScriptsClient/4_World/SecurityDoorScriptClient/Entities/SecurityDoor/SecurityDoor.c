@@ -1,6 +1,7 @@
 class SDM_Security_Door_Base : Building 
 {
     void Open( int index );
+    void InitiateClose( int index );
     void Close( int index );
 };
 

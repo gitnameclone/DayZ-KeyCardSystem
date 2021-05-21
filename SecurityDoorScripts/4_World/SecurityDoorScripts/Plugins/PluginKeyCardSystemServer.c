@@ -6,15 +6,17 @@ class SecurityDoorLocationConfig
     float autoClose;
     vector crateLocation;
     vector crateDir;
+    float closeDelay;
 
-    void SecurityDoorLocationConfig( string ClassName, vector Location, vector Direction, float AutoCloseTime, vector CrateLocation, vector CrateDir) 
+    void SecurityDoorLocationConfig( string class_name, vector loc, vector dir, float autoclose_time, vector crate_location, vector crate_dir, float close_delay) 
     {
-        className = ClassName;
-        location = Location;
-        dir = Direction;
-        autoClose = AutoCloseTime;
-        crateLocation = CrateLocation;
-        crateDir = CrateDir;
+        className = class_name;
+        location = loc;
+        dir = dir;
+        autoClose = autoclose_time;
+        crateLocation = crate_location;
+        crateDir = crate_dir;
+        closeDelay = close_delay;
     }
 
     string GetClassName() 
@@ -46,6 +48,11 @@ class SecurityDoorLocationConfig
     {
         return crateDir;
     }
+
+    float GetCloseDelay()
+    {
+        return closeDelay;
+    }
 }
 
 class KeyCardSystemConfig 
@@ -59,9 +66,9 @@ class KeyCardSystemConfig
         locations = new array< ref SecurityDoorLocationConfig >;
     }
 
-    void InsertLocation( string className, vector pos, vector dir, float autoclose, vector cratePos, vector crateDir)
+    void InsertLocation( string className, vector pos, vector dir, float autoclose, vector cratePos, vector crateDir, float closeDelay)
     {
-        locations.Insert( new SecurityDoorLocationConfig( className, pos, dir, autoclose, cratePos, crateDir ));
+        locations.Insert( new SecurityDoorLocationConfig( className, pos, dir, autoclose, cratePos, crateDir, closeDelay ));
     }
 
     void SetVersion( int Version ) {
@@ -108,7 +115,7 @@ class PluginKeyCardSystemServer : PluginBase
 
         if ( !FileExist( CONFIG )) 
         {
-            m_config.InsertLocation( "SDM_Security_Double_Door_Black", "8336.31 6.364 2941.23", "0 0 0", 300.0 /* 5 mins */, "8339.31 6.364 2941.23", "0 0 0" );
+            m_config.InsertLocation( "SDM_Security_Double_Door_Black", "8336.31 6.364 2941.23", "0 0 0", 300.0 /* 5 mins */, "8339.31 6.364 2941.23", "0 0 0", 12 );
 
             JsonFileLoader<ref KeyCardSystemConfig>.JsonSaveFile( CONFIG, m_config);
         }
@@ -180,6 +187,9 @@ class PluginKeyCardSystemServer : PluginBase
             
             if ( currentConfig.GetCratePosition() != persistanceConfig.GetCratePosition() )
                 return true;
+
+            if ( currentConfig.GetCloseDelay() != persistanceConfig.GetCloseDelay() )
+                return true;
             
         }
 
@@ -226,6 +236,7 @@ class PluginKeyCardSystemServer : PluginBase
                 persistanceData.SetAutoCloseTime( config.GetAutoCloseTime() );
                 persistanceData.SetCrateOrientation( config.GetCrateDirection() );
                 persistanceData.SetCratePosition( config.GetCratePosition() );
+                persistanceData.SetCloseDelay( config.GetCloseDelay() );
 
                 door.SetPersistanceData( persistanceData );
 

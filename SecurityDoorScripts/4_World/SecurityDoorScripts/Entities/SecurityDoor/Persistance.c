@@ -6,6 +6,7 @@ class SecurityDoorPersistanceData {
     vector crateDir;
 
     float autoClose;
+    float closeDelay;
 
     ref map<int, bool> m_DoorState;
 	ref map<int, float> m_DoorTimers;
@@ -41,6 +42,11 @@ class SecurityDoorPersistanceData {
         return autoClose;
     }
 
+    float GetCloseDelay()
+    {
+        return closeDelay;
+    }
+
     bool IsOpen( int index ) {
         return m_DoorState[ index ];
     }
@@ -71,6 +77,11 @@ class SecurityDoorPersistanceData {
 
     void SetCrateOrientation( vector Direction ) {
         crateDir = Direction;
+    }
+
+    void SetCloseDelay( float amount )
+    {
+        closeDelay = amount;
     }
 
 }

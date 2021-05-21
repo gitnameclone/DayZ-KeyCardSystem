@@ -1,31 +1,26 @@
 class CfgPatches
 {
-    class SecurityDoorScriptsClient
-    {
-        requiredAddons[]=
-        {
-            "Security_Doors_Mod"
-        };
-    };
+	class SecurityDoorScriptsClient
+	{
+		requiredAddons[] = {"SecurityDoorMod"};
+		units[] = {};
+		weapons[] = {};
+	};
 };
-
 class CfgMods
 {
-    class SecurityDoorScriptsClient
-    {
-        name = "SecurityDoorScriptsClient";
-        type = "mod";
-        dependencies[]=
+	class SecurityDoorScriptsClient
+	{
+		name = "SecurityDoorScriptsClient";
+		type = "mod";
+		dependencies[] = {"World"};
+		class defs
 		{
-            "World"
+			class worldScriptModule
+			{
+				value = "";
+				files[] = {"SecurityDoorScriptsClient\4_World"};
+			};
 		};
-        class defs
-        {
-            class worldScriptModule
-            {
-                value = "";
-                files[] = {"SecurityDoorScriptsClient\4_World"};
-            };
-        };
-    };
+	};
 };

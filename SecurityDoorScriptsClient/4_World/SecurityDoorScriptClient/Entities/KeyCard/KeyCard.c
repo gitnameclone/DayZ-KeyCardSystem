@@ -4,23 +4,23 @@ class SDM_Keycard_Base : ItemBase {
     }
 };
 
-class SDM_Keycard_Lvl_1 : SDM_Keycard_Base {
+class SDM_Keycard_Yellow : SDM_Keycard_Base {
     override bool CanAuthorizeDoor( string type ) {
-        return type == "SDM_Security_Single_Door_Lvl_1" || type == "SDM_Security_Double_Door_Lvl_1";
+        return type == "SDM_Security_Single_Door_Yellow" || type == "SDM_Security_Double_Door_Yellow";
     }
 };
-class SDM_Keycard_Lvl_2 : SDM_Keycard_Base {
+class SDM_Keycard_Blue : SDM_Keycard_Base {
     override bool CanAuthorizeDoor( string type ) {
-        return type == "SDM_Security_Single_Door_Lvl_2" || type == "SDM_Security_Double_Door_Lvl_2";
+        return type == "SDM_Security_Single_Door_Blue" || type == "SDM_Security_Double_Door_Blue";
     }
 };
-class SDM_Keycard_Lvl_3 : SDM_Keycard_Base {
+class SDM_Keycard_Red : SDM_Keycard_Base {
     override bool CanAuthorizeDoor( string type ) {
-        return type == "SDM_Security_Single_Door_Lvl_3" || type == "SDM_Security_Double_Door_Lvl_3";
+        return type == "SDM_Security_Single_Door_Red" || type == "SDM_Security_Double_Door_Red";
     }
 };
-class SDM_Keycard_Lvl_4 : SDM_Keycard_Base {
+class SDM_Keycard_Black : SDM_Keycard_Base {
     override bool CanAuthorizeDoor( string type ) {
-        return type == "SDM_Security_Single_Door_Lvl_4" || type == "SDM_Security_Double_Door_Lvl_4";
+        return type == "SDM_Security_Single_Door_Black" || type == "SDM_Security_Double_Door_Black";
     }
 };

@@ -21,7 +21,7 @@ modded class SDM_Security_Single_Door_Base
     }
 };
 
-modded class SDM_Security_Single_Door_Lvl_1 
+modded class SDM_Security_Single_Door_Yellow 
 {
     //super.AddLoot( crate ); /* Ignore global config */
 
@@ -30,7 +30,7 @@ modded class SDM_Security_Single_Door_Lvl_1
         crate.GetInventory().CreateInInventory("M4A1");
     }
 };
-modded class SDM_Security_Single_Door_Lvl_2 
+modded class SDM_Security_Single_Door_Blue 
 {
     //super.AddLoot( crate );
 
@@ -39,7 +39,7 @@ modded class SDM_Security_Single_Door_Lvl_2
         crate.GetInventory().CreateInInventory("M4A1");
     }
 };
-modded class SDM_Security_Single_Door_Lvl_3 
+modded class SDM_Security_Single_Door_Red 
 {
     //super.AddLoot( crate );
 
@@ -49,7 +49,7 @@ modded class SDM_Security_Single_Door_Lvl_3
     }
 };
 
-modded class SDM_Security_Single_Door_Lvl_4
+modded class SDM_Security_Single_Door_Black
 {
     override void AddLoot( EntityAI crate )
     {

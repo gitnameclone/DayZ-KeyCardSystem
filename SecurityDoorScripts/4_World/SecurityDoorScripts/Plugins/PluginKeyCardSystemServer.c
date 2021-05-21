@@ -7,14 +7,14 @@ class SecurityDoorLocationConfig
     vector crateLocation;
     vector crateDir;
 
-    void SecurityDoorLocationConfig( string class_name, vector location, vector direction, float auto_close_time, vector crate_location, vector crate_dir) 
+    void SecurityDoorLocationConfig( string ClassName, vector Location, vector Direction, float AutoCloseTime, vector CrateLocation, vector CrateDir) 
     {
-        className = class_name;
-        location = location;
-        dir = direction;
-        autoClose = auto_close_time;
-        crateLocation = crate_location;
-        crateDir = crate_dir;
+        className = ClassName;
+        location = Location;
+        dir = Direction;
+        autoClose = AutoCloseTime;
+        crateLocation = CrateLocation;
+        crateDir = CrateDir;
     }
 
     string GetClassName() 

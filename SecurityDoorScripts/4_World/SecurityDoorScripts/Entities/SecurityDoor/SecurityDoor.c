@@ -93,7 +93,7 @@ modded class SDM_Security_Door_Base {
         float delay = m_persistanceData.GetCloseDelay();
 
         Print("Closing...");
-        GetGame().GetCallQueue( CALL_CATEGORY_SYSTEM ).CallLater( Close, delay, false, new Param1<int>(index) );
+        GetGame().GetCallQueue( CALL_CATEGORY_SYSTEM ).CallLater( Close, delay, false, index );
     }
 
     override void Close( int index )

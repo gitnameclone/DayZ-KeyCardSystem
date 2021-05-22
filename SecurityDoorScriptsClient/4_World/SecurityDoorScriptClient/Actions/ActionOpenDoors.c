@@ -1,12 +1,15 @@
 modded class ActionOpenDoors
 {
-    protected string m_actionTXT = "#open";
     protected bool m_IsSecurityDoor;
     protected ItemBase m_ItemInHands;
     
     override string GetText()
 	{
-		return m_actionTXT;
+        if ( m_IsSecurityDoor )
+		    return "Swipe Card";
+        else
+            return "#open";
+            
 	}
 
     protected bool IsSecurityDoor(Object target) 
@@ -55,10 +58,7 @@ modded class ActionOpenDoors
                 Class.CastTo( keyCard, inHandItem);
 
             if( CanAuthorize( target.GetObject(), keyCard ) ) 
-            {
-                m_actionTXT = "Swipe Card";
                 return super.ActionCondition( player, target, inHandItem );
-            }
             else
                 return false;
 
